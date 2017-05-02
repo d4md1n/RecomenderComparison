@@ -22,5 +22,24 @@ object MainObject {
     println("----------------------------")
     println(sumOfPlays/numberOfPlays)
     println("----------------------------")
+
+    val users = sc.textFile("ml-100k/u.user").cache()
+    val genres = sc.textFile("ml-100k/u.genre").cache()
+    val items = sc.textFile("ml-100k/u.item").cache()
+    val occupations = sc.textFile("ml-100k/u.occupation").cache()
+    val rattings = sc.textFile("ml-100k/u.data").cache()
+
+    val femaleUsers = users.map(u=> u.split("|")).filter(u => u(2) == "F").count()
+
+    println("----------------------------")
+    println(users.count())
+    println(genres.count())
+    println(items.count())
+    println(occupations.count())
+    println(rattings.count())
+    println("----------------------------")
+    println(femaleUsers)
+    println("----------------------------")
+
   }
 }
