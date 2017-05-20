@@ -21,19 +21,19 @@ object MainObject {
     val genres = sparkContext.textFile("ml-100k/u.genre").map(u => u.trim.split("\\|")).cache()
     val items = sparkContext.textFile("ml-100k/u.item").map(u => u.trim.replace("||", "|").split("\\|")).cache()
     val occupations = sparkContext.textFile("ml-100k/u.occupation").cache()
-    val ratings = sparkContext.textFile("ml-100k/u1.base").map(_.split("\t")  match { case Array(user, item, rate, timestamp) =>
-    Rating(user.toInt, item.toInt, rate.toDouble)
+    val ratings = sparkContext.textFile("ml-100k/u5.base").map(_.split("\t") match { case Array(user, item, rate, timestamp) =>
+      Rating(user.toInt, item.toInt, rate.toDouble)
     }).cache()
 
     //// Build the recommendation model using ALS
-    val rank = 20          // 10 - 20
-    val numIterations = 80 // 50 - 100
-    val model = ALS.train(ratings, rank, numIterations, 0.01) // pollaplasia 3
+    val rank = 15 // 10 - 20
+    val numIterations = 90 // 50 - 100
+    val model = ALS.train(ratings, rank, numIterations, 0.09) // pollaplasia 3
 
 
     //// compare algorithms on prediction, user recommendation, product recommendation
     //import test dataset
-    val testRatings = sparkContext.textFile("ml-100k/u1.test").map(_.split("\t") match { case Array(user, item, rate, timestamp) =>
+    val testRatings = sparkContext.textFile("ml-100k/u5.test").map(_.split("\t") match { case Array(user, item, rate, timestamp) =>
       Rating(user.toInt, item.toInt, rate.toDouble)
     }).cache()
 
@@ -54,11 +54,13 @@ object MainObject {
 
     // calculate MSE for the whole rdd
     val MSE = ratesAndPreds.map { case ((user, product), (r1, r2)) =>
-      val err = (r1 - r2)
+      val err = r1 - r2
       err * err
     }.mean()
 
 
     println("Mean Squared Error = " + MSE)
+
+//    model.recommendProducts(858, 10).foreach(u => println(u.product))
   }
 }
