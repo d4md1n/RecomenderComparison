@@ -22,9 +22,9 @@ object MainObject {
 
 
     // Build the recommendation model using ALS
-    val rank = 10
-    val numIterations = 10
-    val model = ALS.train(ratings, rank, numIterations, 0.01)
+    val rank = 10          // 10 - 20
+    val numIterations = 10 // 50 - 100
+    val model = ALS.train(ratings, rank, numIterations, 0.01) // pollaplasia 3
 
     // Evaluate the model on rating data
     val usersProducts = ratings.map { case Rating(user, product, rate) =>
@@ -34,9 +34,11 @@ object MainObject {
       model.predict(usersProducts).map { case Rating(user, product, rate) =>
         ((user, product), rate)
       }
+
     val ratesAndPreds = ratings.map { case Rating(user, product, rate) =>
       ((user, product), rate)
     }.join(predictions)
+
     val MSE = ratesAndPreds.map { case ((user, product), (r1, r2)) =>
       val err = (r1 - r2)
       err * err
@@ -46,19 +48,13 @@ object MainObject {
     // Save and load model
     model.save(sc, "target/tmp/myCollaborativeFilter")
     val sameModel = MatrixFactorizationModel.load(sc, "target/tmp/myCollaborativeFilter")
+    /////
+    //
+    //
+    //    collaborative filtering
+    //
+    //
 
-//    val femaleUsers = users.filter(u => u(2) == "F").count()
-//
-//    println("----------------------------")
-//    println(users.count())
-//    println(genres.count())
-//    println(items.count())
-//    println(occupations.count())
-//    println(ratings.count())
-//    println("----------------------------")
-//    println(femaleUsers)
-//    println(ratings.first()(0) + " " + ratings.first()(1) + " " +ratings.first()(2) + " " + ratings.first()(3))
-//    println("----------------------------")
 
   }
 }
