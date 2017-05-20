@@ -1,6 +1,5 @@
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.mllib.recommendation.ALS
-import org.apache.spark.mllib.recommendation.MatrixFactorizationModel
 import org.apache.spark.mllib.recommendation.Rating
 
 object MainObject {
@@ -10,7 +9,11 @@ object MainObject {
     .setAppName("RecomenderComparison")
   val sc = new SparkContext(conf)
 
+
   def main(args: Array[String]) {
+
+    sc.setCheckpointDir("checkpoint/") // set checkpoint dir to avoid stack overflow
+
 
     //import data to rdd
     val users = sc.textFile("ml-100k/u.user").map(u => u.trim.split("\\|")).cache()
@@ -25,7 +28,9 @@ object MainObject {
 
     // Build the recommendation model using ALS
     val rank = 10          // 10 - 20
-    val numIterations = 10 // 50 - 100
+    val numIterations = 80 // 50 - 100
+
+
     val model = ALS.train(ratings, rank, numIterations, 0.01) // pollaplasia 3
 
     //load test model
