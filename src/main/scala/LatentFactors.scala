@@ -20,8 +20,6 @@ object LatentFactors {
     val genres = sparkContext.textFile("ml-100k/u.genre").map(u => u.trim.split("\\|")).cache()
     val items = sparkContext.textFile("ml-100k/u.item").map(u => u.trim.replace("||", "|").split("\\|")).cache()
     val occupations = sparkContext.textFile("ml-100k/u.occupation").cache()
-    val x = ("ml-100k/u5.base", "ml-100k/u5.test")
-
     val dataSetList = List(
       ("ml-100k/u1.base", "ml-100k/u1.test"),
       ("ml-100k/u2.base", "ml-100k/u2.test"),
