@@ -13,7 +13,6 @@ object LatentFactors {
     sc
   }
 
-
   def main(args: Array[String]) {
 
     //import data to rdd
@@ -21,13 +20,34 @@ object LatentFactors {
     val genres = sparkContext.textFile("ml-100k/u.genre").map(u => u.trim.split("\\|")).cache()
     val items = sparkContext.textFile("ml-100k/u.item").map(u => u.trim.replace("||", "|").split("\\|")).cache()
     val occupations = sparkContext.textFile("ml-100k/u.occupation").cache()
-    val ratings = sparkContext.textFile("ml-100k/u5.base").map(_.split("\t") match { case Array(user, item, rate, timestamp) =>
+    val x = ("ml-100k/u5.base", "ml-100k/u5.test")
+
+    val dataSetList = List(
+      ("ml-100k/u1.base", "ml-100k/u1.test"),
+      ("ml-100k/u2.base", "ml-100k/u2.test"),
+      ("ml-100k/u3.base", "ml-100k/u3.test"),
+      ("ml-100k/u4.base", "ml-100k/u4.test"),
+      ("ml-100k/u5.base", "ml-100k/u5.test"),
+      ("ml-100k/ua.base", "ml-100k/ua.test"),
+      ("ml-100k/ub.base", "ml-100k/ub.test")
+    )
+
+    dataSetList
+      .map(dataSet => getMetricsForDataset(dataSet._1, dataSet._2))
+      .foreach(metric => println(metric))
+    println("training set", "testing set", "MSE", "RMSE", "MAE")
+
+//    model.recommendProducts(858, 10).foreach(u => println(u.product))
+  }
+
+  private def getMetricsForDataset(trainingSet:String, testingSet:String) = {
+    val ratings = sparkContext.textFile(trainingSet).map(_.split("\t") match { case Array(user, item, rate, timestamp) =>
       Rating(user.toInt, item.toInt, rate.toDouble)
     }).cache()
 
     //// Build the recommendation model using ALS
-    val rank = 15 // 10 - 20
-    val numIterations = 90 // 50 - 100
+    val rank = 10 // 10 - 20
+    val numIterations = 50 // 50 - 100
     val model = ALS.train(ratings, rank, numIterations, 0.09) // pollaplasia 3
 
 
@@ -68,12 +88,11 @@ object LatentFactors {
     }.mean()
 
 
-    println(
-      "Mean Squared Error = " + MSE + "\n" +
-      "Root Mean Squared Error = " + RMSE + "\n" +
-      "Mean Absolute Error = " + MAE
-    )
-
-//    model.recommendProducts(858, 10).foreach(u => println(u.product))
+    (trainingSet, testingSet, MSE, RMSE, MAE)
+//    println(
+//      "Mean Squared Error = " + MSE + "\n" +
+//        "Root Mean Squared Error = " + RMSE + "\n" +
+//        "Mean Absolute Error = " + MAE
+//    )
   }
 }
