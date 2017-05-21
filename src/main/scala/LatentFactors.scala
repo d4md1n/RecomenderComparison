@@ -52,14 +52,27 @@ object LatentFactors {
       case Rating(user, product, rate) => ((user, product), rate)
     }.join(predictions)
 
-    // calculate MSE for the whole rdd
+    // calculate MSE (Mean Square Error)
     val MSE = ratesAndPreds.map { case ((user, product), (r1, r2)) =>
       val err = r1 - r2
       err * err
     }.mean()
 
+    // calculate RMSE (Root Mean Square Error)
+    val RMSE = Math.sqrt(MSE)
 
-    println("Mean Squared Error = " + MSE)
+    // calculate MAE (Mean Absolute Error)
+    val MAE = ratesAndPreds.map { case ((user, product), (r1, r2)) =>
+      val err = r1 - r2
+      Math.abs(err)
+    }.mean()
+
+
+    println(
+      "Mean Squared Error = " + MSE + "\n" +
+      "Root Mean Squared Error = " + RMSE + "\n" +
+      "Mean Absolute Error = " + MAE
+    )
 
 //    model.recommendProducts(858, 10).foreach(u => println(u.product))
   }
