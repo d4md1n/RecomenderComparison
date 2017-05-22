@@ -4,7 +4,7 @@ import org.apache.spark.rdd.RDD
 object Infrastructure {
   val sparkConfiguration = new SparkConf()
     .setMaster("local[*]")
-    .setAppName("RecomenderComparison")
+    .setAppName("RecommenderSystemsComparison")
   val sparkContext = {
     val sc = new SparkContext(sparkConfiguration)
     sc.setCheckpointDir("checkpoint/") // set checkpoint dir to avoid stack overflow
