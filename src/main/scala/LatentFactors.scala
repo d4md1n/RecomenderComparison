@@ -51,7 +51,7 @@ object LatentFactors {
 
     //// compare algorithms on prediction, user recommendation, product recommendation
     //import test dataset
-    val testRatings = sparkContext.textFile("ml-100k/u5.test").map(_.split("\t") match { case Array(user, item, rate, timestamp) =>
+    val testRatings = sparkContext.textFile(testingSet).map(_.split("\t") match { case Array(user, item, rate, timestamp) =>
       Rating(user.toInt, item.toInt, rate.toDouble)
     }).cache()
 
