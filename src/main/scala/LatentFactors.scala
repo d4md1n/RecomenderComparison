@@ -1,41 +1,16 @@
-import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.mllib.recommendation.ALS
-import org.apache.spark.mllib.recommendation.Rating
+import org.apache.spark.SparkContext
+import org.apache.spark.mllib.recommendation.{ALS, Rating}
+import org.apache.spark.rdd.RDD
 
 object LatentFactors {
 
-  val sparkConfiguration = new SparkConf()
-    .setMaster("local[*]")
-    .setAppName("RecomenderComparison")
-  val sparkContext = {
-    val sc = new SparkContext(sparkConfiguration)
-    sc.setCheckpointDir("checkpoint/") // set checkpoint dir to avoid stack overflow
-    sc
-  }
+  val sparkContext: SparkContext = Infrastructure.sparkContext
 
   def main(args: Array[String]) {
-
-    //import data to rdd
-    val users = sparkContext.textFile("ml-100k/u.user").map(u => u.trim.split("\\|")).cache()
-    val genres = sparkContext.textFile("ml-100k/u.genre").map(u => u.trim.split("\\|")).cache()
-    val items = sparkContext.textFile("ml-100k/u.item").map(u => u.trim.replace("||", "|").split("\\|")).cache()
-    val occupations = sparkContext.textFile("ml-100k/u.occupation").cache()
-    val dataSetList = List(
-      ("ml-100k/u1.base", "ml-100k/u1.test"),
-      ("ml-100k/u2.base", "ml-100k/u2.test"),
-      ("ml-100k/u3.base", "ml-100k/u3.test"),
-      ("ml-100k/u4.base", "ml-100k/u4.test"),
-      ("ml-100k/u5.base", "ml-100k/u5.test"),
-      ("ml-100k/ua.base", "ml-100k/ua.test"),
-      ("ml-100k/ub.base", "ml-100k/ub.test")
-    )
-
-    dataSetList
+    Infrastructure.dataSetList
       .map(dataSet => getMetricsForDataset(dataSet._1, dataSet._2))
       .foreach(metric => println(metric))
     println("training set", "testing set", "MSE", "RMSE", "MAE", "Execution Time")
-
-//    model.recommendProducts(858, 10).foreach(u => println(u.product))
   }
 
   private def getMetricsForDataset(trainingSet:String, testingSet:String) = {
@@ -69,34 +44,25 @@ object LatentFactors {
     }
 
     // join rdd to get the rating and the prediction value for each combination
-    val ratesAndPreds = testRatings.map {
+    val ratesAndPredictions: RDD[((Int, Int), (Double, Double))] = testRatings.map {
       case Rating(user, product, rate) => ((user, product), rate)
     }.join(predictions)
 
+    ///// Metrics ////
+
     // calculate MSE (Mean Square Error)
-    val MSE = ratesAndPreds.map { case ((user, product), (r1, r2)) =>
-      val err = r1 - r2
-      err * err
-    }.mean()
+    val MSE = Metrics.getMSE(ratesAndPredictions)
 
     // calculate RMSE (Root Mean Square Error)
     val RMSE = Math.sqrt(MSE)
 
     // calculate MAE (Mean Absolute Error)
-    val MAE = ratesAndPreds.map { case ((user, product), (r1, r2)) =>
-      val err = r1 - r2
-      Math.abs(err)
-    }.mean()
+    val MAE = Metrics.getMAE(ratesAndPredictions)
 
     val endingTime = System.currentTimeMillis()
 
     val executionTime = endingTime - startingTime
 
     (trainingSet, testingSet, MSE, RMSE, MAE, executionTime)
-//    println(
-//      "Mean Squared Error = " + MSE + "\n" +
-//        "Root Mean Squared Error = " + RMSE + "\n" +
-//        "Mean Absolute Error = " + MAE
-//    )
   }
 }
