@@ -5,7 +5,7 @@ import org.apache.spark.mllib.recommendation.Rating
 object LatentFactors {
 
   val sparkConfiguration = new SparkConf()
-    .setMaster("local[4]")
+    .setMaster("local[*]")
     .setAppName("RecomenderComparison")
   val sparkContext = {
     val sc = new SparkContext(sparkConfiguration)
@@ -39,6 +39,9 @@ object LatentFactors {
   }
 
   private def getMetricsForDataset(trainingSet:String, testingSet:String) = {
+
+    val startingTime = System.currentTimeMillis()
+
     val ratings = sparkContext.textFile(trainingSet).map(_.split("\t") match { case Array(user, item, rate, timestamp) =>
       Rating(user.toInt, item.toInt, rate.toDouble)
     }).cache()
@@ -46,7 +49,7 @@ object LatentFactors {
     //// Build the recommendation model using ALS
     val rank = 10 // 10 - 20
     val numIterations = 50 // 50 - 100
-    val model = ALS.train(ratings, rank, numIterations, 0.09) // pollaplasia 3
+    val model = ALS.train(ratings, rank, numIterations, 0.01) // pollaplasia 3
 
 
     //// compare algorithms on prediction, user recommendation, product recommendation
@@ -85,8 +88,11 @@ object LatentFactors {
       Math.abs(err)
     }.mean()
 
+    val endingTime = System.currentTimeMillis()
 
-    (trainingSet, testingSet, MSE, RMSE, MAE)
+    val executionTime = endingTime - startingTime
+
+    (trainingSet, testingSet, MSE, RMSE, MAE, executionTime)
 //    println(
 //      "Mean Squared Error = " + MSE + "\n" +
 //        "Root Mean Squared Error = " + RMSE + "\n" +
