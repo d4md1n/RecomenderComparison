@@ -1,11 +1,14 @@
 
 import java.util
 
+import breeze.optimize.linear.PowerMethod.BDM
 import org.apache.spark.SparkContext
-import org.apache.spark.mllib.linalg._
-import org.apache.spark.mllib.linalg.distributed.{CoordinateMatrix, MatrixEntry}
+import org.apache.spark.mllib.linalg.{Matrices, Matrix}
+import org.apache.spark.mllib.linalg.distributed.{CoordinateMatrix, IndexedRowMatrix, MatrixEntry, RowMatrix}
 import org.apache.spark.mllib.recommendation.Rating
 import org.apache.spark.rdd.RDD
+
+
 
 
 object ContentBased {
@@ -21,7 +24,7 @@ object ContentBased {
 
     val itemsMatrixEntries: RDD[MatrixEntry] = generateItemMatrixEntries
 
-    val itemMatrix = new CoordinateMatrix(itemsMatrixEntries).transpose().toRowMatrix()
+    val itemMatrix: Matrix = new CoordinateMatrix(itemsMatrixEntries).toBlockMatrix().toLocalMatrix()
     //  itemMatrix.toRowMatrix().rows.foreach(x => println(x))
 
 
@@ -33,14 +36,18 @@ object ContentBased {
     val userItemRating = ratings.groupBy(r => r.user)
       .map(v => (v._1, generateUserMatrix(v._2)))
 
-     val test = itemMatrix.multiply(userItemRating.first()._2)
+
+    val x = toBreeze(userItemRating.first()._2) \ toBreeze(itemMatrix)
+    println(x.data.deep.mkString("\n"))
+
+    //val test = userItemRating.first()._2.multiply(inverseItemMatrix)
 
 //      .map(v => (v._1, itemMatrix
 //        .multiply(v._2))
 //      )
 
-    println(test.numCols())
-    println(test.numRows())
+//    println(test.numCols)
+//    println(test.numRows)
 
 
 //
@@ -65,11 +72,10 @@ object ContentBased {
 
   }
 
-  def generateUserMatrix(userRatings: Iterable[Rating]) = {
+  def generateUserMatrix(userRatings: Iterable[Rating]): Matrix = {
 
     val numberOfItems = Infrastructure.items.count().toInt
-    var temp1 = Matrices.zeros(numberOfItems,0)
-    var array = new Array[Double](numberOfItems)
+    val array = new Array[Double](numberOfItems)
     util.Arrays.fill(array, 0)
     userRatings.foreach(r => array(r.product - 1) = 1)
 //    println(array.deep.mkString("\n"))
@@ -81,6 +87,17 @@ object ContentBased {
   //    ("trainingSet", "testingSet", "MSE", "RMSE", "MAE", "executionTime")
   //
   //  }
+
+
+  private def toBreeze(matrix: Matrix)= {
+    if (!matrix.isTransposed) {
+      new BDM(matrix.numRows, matrix.numCols, matrix.toArray)
+    } else {
+      val breezeMatrix = new BDM(matrix.numRows, matrix.numCols, matrix.toArray)
+      breezeMatrix.t
+    }
+  }
+
   private def generateItemMatrixEntries = {
     Infrastructure.items.flatMap(a => Array(
     MatrixEntry(a(0).toLong - 1, 0, a(4).toInt),

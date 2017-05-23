@@ -1,5 +1,5 @@
 import LatentFactors.sparkContext
-import ml.dmlc.xgboost4j.scala.spark.XGBoost
+//import ml.dmlc.xgboost4j.scala.spark.XGBoost
 import org.apache.spark.mllib.recommendation.Rating
 
 object XGBoostImplementation {
