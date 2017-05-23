@@ -21,55 +21,21 @@ object ContentBased {
     //      .map(dataSet => getMetricsForDataset(dataSet._1, dataSet._2))
     //      .foreach(metric => println(metric))
     //    println("training set", "testing set", "MSE", "RMSE", "MAE", "Execution Time")
-
     val itemsMatrixEntries: RDD[MatrixEntry] = generateItemMatrixEntries
-
     val itemMatrix: Matrix = new CoordinateMatrix(itemsMatrixEntries).toBlockMatrix().toLocalMatrix()
-    //  itemMatrix.toRowMatrix().rows.foreach(x => println(x))
-
 
     val ratings = sparkContext.textFile("ml-100k/u1.base")
       .map(_.split("\t") match {
         case Array(user, item, rate, timestamp) => Rating(user.toInt, item.toInt, rate.toDouble)
     }).cache()
 
-    val userItemRating = ratings.groupBy(r => r.user)
+    val usersProfile = ratings.groupBy(r => r.user)
       .map(v => (v._1, generateUserMatrix(v._2)))
-
-
-    val x = toBreeze(userItemRating.first()._2) \ toBreeze(itemMatrix)
-    println(x.data.deep.mkString("\n"))
-
-    //val test = userItemRating.first()._2.multiply(inverseItemMatrix)
-
-//      .map(v => (v._1, itemMatrix
-//        .multiply(v._2))
-//      )
-
-//    println(test.numCols)
-//    println(test.numRows)
-
-
-//
-//
-//    userItemRating.foreach(v => {
-//      println(v._1)
-//      println(v._2.numCols())
-//      println(v._2.numRows())
-//    })
-
-
-//    itemMatrix.toBlockMatrix().multiply
-//
-//    itemMatrix.entries.foreach(x => println(x))
-//    println(itemMatrix.numCols())
-//    println(itemMatrix.numRows())
+      .map(v => toBreeze(v._2) \ toBreeze(itemMatrix))
 
 
 
-
-
-
+    println(usersProfile.first().data.deep.mkString("\n"))
   }
 
   def generateUserMatrix(userRatings: Iterable[Rating]): Matrix = {
@@ -78,22 +44,14 @@ object ContentBased {
     val array = new Array[Double](numberOfItems)
     util.Arrays.fill(array, 0)
     userRatings.foreach(r => array(r.product - 1) = 1)
-//    println(array.deep.mkString("\n"))
     Matrices.dense(numberOfItems ,1, array)
   }
 
-
-  //  private def getMetricsForDataset(trainingSet: String, testingSet: String) = {
-  //    ("trainingSet", "testingSet", "MSE", "RMSE", "MAE", "executionTime")
-  //
-  //  }
-
-
   private def toBreeze(matrix: Matrix)= {
+    val breezeMatrix = new BDM(matrix.numRows, matrix.numCols, matrix.toArray)
     if (!matrix.isTransposed) {
-      new BDM(matrix.numRows, matrix.numCols, matrix.toArray)
+      breezeMatrix
     } else {
-      val breezeMatrix = new BDM(matrix.numRows, matrix.numCols, matrix.toArray)
       breezeMatrix.t
     }
   }
