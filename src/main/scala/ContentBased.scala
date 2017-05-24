@@ -39,7 +39,8 @@ object ContentBased {
       .map(v => (v._1, generateUserMatrix(v._2)))
 
     val userWeights = usersRatings
-      .map(v => (v._1, removeZeroLines(v._2, itemMatrixBreeze)))
+      .map(v => (v._1, removeZeroLines(v._2, itemMatrixBreeze )))
+      .map(v => (v._1, v._2._1 \ v._2._2))
 
 
     val testRatings = sparkContext.textFile("ml-100k/u1.test")
@@ -64,7 +65,7 @@ object ContentBased {
     val tempUser: Int = 770
     val tempMatrix = temp._2
 
-    val weight: Matrix = usersRatings.filter(v => v._1==tempUser).map(v=> v._2).first()
+    val weight: DenseMatrix[Double] = userWeights.filter(v => v._1==tempUser).map(v=> v._2).first()
     println(weight.toArray.deep.mkString(","))
 
     val row: DenseMatrix[Double] = getRow(itemMatrix,270)
