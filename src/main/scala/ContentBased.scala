@@ -1,7 +1,7 @@
 
 import java.util
 
-import breeze.linalg.{Axis, DenseMatrix, SliceMatrix}
+import breeze.linalg.{*, Axis, DenseMatrix, SliceMatrix}
 import breeze.numerics._
 import breeze.optimize.linear.PowerMethod.BDM
 import org.apache.spark.SparkContext
@@ -66,12 +66,15 @@ object ContentBased {
     val tempMatrix = temp._2
 
     val weight: DenseMatrix[Double] = userWeights.filter(v => v._1==tempUser).map(v=> v._2).first()
-    println(weight.toArray.deep.mkString(","))
+//    println(weight.toArray.deep.mkString(","))
+//    println(weight.cols, weight.rows)
 
-    val row: DenseMatrix[Double] = getRow(itemMatrix,270)
+    val row: DenseMatrix[Double] = getRow(itemMatrix,474)
 
+    val prediction = row.t * weight.t
 //    val x: DenseMatrix[Double] = row.t * tempMatrix
 
+    println(prediction.data.deep.mkString(","))
 
   }
   def removeZeroLines(userMatrix: DenseMatrix[Double], itemMatrix:DenseMatrix[Double]): (DenseMatrix[Double], DenseMatrix[Double]) = {
