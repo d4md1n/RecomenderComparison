@@ -1,6 +1,8 @@
 
 import java.util
 
+import breeze.linalg.{Axis, DenseMatrix, SliceMatrix}
+import breeze.numerics._
 import breeze.optimize.linear.PowerMethod.BDM
 import org.apache.spark.SparkContext
 import org.apache.spark.mllib.linalg.{Matrices, Matrix}
@@ -21,30 +23,85 @@ object ContentBased {
     //      .map(dataSet => getMetricsForDataset(dataSet._1, dataSet._2))
     //      .foreach(metric => println(metric))
     //    println("training set", "testing set", "MSE", "RMSE", "MAE", "Execution Time")
+
+
     val itemsMatrixEntries: RDD[MatrixEntry] = generateItemMatrixEntries
     val itemMatrix: Matrix = new CoordinateMatrix(itemsMatrixEntries).toBlockMatrix().toLocalMatrix()
+
+    val itemMatrixBreeze = toBreeze(itemMatrix).copy
 
     val ratings = sparkContext.textFile("ml-100k/u1.base")
       .map(_.split("\t") match {
         case Array(user, item, rate, timestamp) => Rating(user.toInt, item.toInt, rate.toDouble)
     }).cache()
 
-    val usersProfile = ratings.groupBy(r => r.user)
+    val usersRatings = ratings.groupBy(r => r.user)
       .map(v => (v._1, generateUserMatrix(v._2)))
-      .map(v => toBreeze(v._2) \ toBreeze(itemMatrix))
+
+    val userWeights = usersRatings
+      .map(v => (v._1, removeZeroLines(v._2, itemMatrixBreeze)))
+
+
+    val testRatings = sparkContext.textFile("ml-100k/u1.test")
+      .map(_.split("\t") match {
+        case Array(user, item, rate, timestamp) => Rating(user.toInt, item.toInt, rate.toDouble)
+      }).cache()
+
+    // remove rating from dataset
+    val usersProducts = testRatings.map {
+      case Rating(user, product, rate) => (user, product)
+    }
+
+    // for each user predict an then join
+//    usersProducts.first()._2.dot(toBreeze(itemMatrix)(0))
+
+   // val item = getRow(itemMatrix, 1)
 
 
 
-    println(usersProfile.first().data.deep.mkString("\n"))
+
+    val temp = usersRatings.first()
+    val tempUser: Int = 770
+    val tempMatrix = temp._2
+
+    val weight: Matrix = usersRatings.filter(v => v._1==tempUser).map(v=> v._2).first()
+    println(weight.toArray.deep.mkString(","))
+
+    val row: DenseMatrix[Double] = getRow(itemMatrix,270)
+
+//    val x: DenseMatrix[Double] = row.t * tempMatrix
+
+
+  }
+  def removeZeroLines(userMatrix: DenseMatrix[Double], itemMatrix:DenseMatrix[Double]): (DenseMatrix[Double], DenseMatrix[Double]) = {
+    val localItemMatrix = itemMatrix.copy
+    val localUserMatrix = userMatrix.copy
+    userMatrix.foreachKey { v =>
+      if (userMatrix(v._1,v._2) == 0) {
+        localUserMatrix.delete(v._1, Axis._0)
+        localItemMatrix.delete(v._1, Axis._0)
+      }
+    }
+    (localUserMatrix, localItemMatrix)
   }
 
-  def generateUserMatrix(userRatings: Iterable[Rating]): Matrix = {
+
+  def getRow(matrix: Matrix, row: Int): DenseMatrix[Double] = {
+    val numberOfColumns = matrix.numCols
+    val array = new Array[Double](numberOfColumns)
+    for (i <- 0 until matrix.numCols){
+      array(i)=matrix(row,i)
+    }
+    new DenseMatrix(numberOfColumns ,1, array)
+  }
+
+  def generateUserMatrix(userRatings: Iterable[Rating]): DenseMatrix[Double] = {
 
     val numberOfItems = Infrastructure.items.count().toInt
     val array = new Array[Double](numberOfItems)
     util.Arrays.fill(array, 0)
-    userRatings.foreach(r => array(r.product - 1) = 1)
-    Matrices.dense(numberOfItems ,1, array)
+    userRatings.foreach(r => array(r.product - 1) = r.rating)
+    new DenseMatrix(numberOfItems ,1, array)
   }
 
   private def toBreeze(matrix: Matrix)= {
