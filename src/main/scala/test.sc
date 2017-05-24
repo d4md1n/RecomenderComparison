@@ -10,13 +10,19 @@ val movie5 = Array(0,1)
 DenseMatrix(movies).data.deep.mkString(",")
 val moviesMatrix = new DenseMatrix(4,3,movies)
 
-val moviesMatrix2 = moviesMatrix.copy
+var moviesMatrix2 = moviesMatrix.copy
 
 moviesMatrix.delete(2, Axis._0) // delete row
 
 val moviesMatrix2Iterator = moviesMatrix2.activeIterator
 
+moviesMatrix2
 
 moviesMatrix2.foreachKey { v =>
-  println(v)
+  moviesMatrix2.delete(v._1, Axis._0)
 }
+
+moviesMatrix2
+
+/// delete returns value, use it
+/// also use delete with sequence
