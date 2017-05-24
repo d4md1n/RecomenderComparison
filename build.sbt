@@ -11,3 +11,4 @@ libraryDependencies ++= Seq(
     "org.scalanlp" %% "breeze-viz" % "0.12"
 )
 resolvers += "Sonatype Releases" at "https://oss.sonatype.org/content/repositories/releases/"
+resolvers += Resolver.mavenLocal
