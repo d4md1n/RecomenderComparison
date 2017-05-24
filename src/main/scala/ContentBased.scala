@@ -38,9 +38,10 @@ object ContentBased {
     val usersRatings = ratings.groupBy(r => r.user)
       .map(v => (v._1, generateUserMatrix(v._2)))
 
-    val userWeights = usersRatings
-      .map(v => (v._1, removeZeroLines(v._2, itemMatrixBreeze )))
-      .map(v => (v._1, v._2._1 \ v._2._2))
+    val refinedMatrices = usersRatings
+      .map(v => (v._1, getRefinedMatrices(v._2, itemMatrixBreeze )))
+
+    val userWeights = refinedMatrices.map(v => (v._1, v._2._1 \ v._2._2))
 
 
     val testRatings = sparkContext.textFile("ml-100k/u1.test")
@@ -65,20 +66,24 @@ object ContentBased {
     val tempUser: Int = 770
     val tempMatrix = temp._2
 
-    val weight: DenseMatrix[Double] = userWeights.filter(v => v._1==tempUser).map(v=> v._2).first()
+    val refined: (DenseMatrix[Double], DenseMatrix[Double]) = refinedMatrices.filter(v => v._1==tempUser).map(v=> v._2).first()
+
+    println(refined._1.data.deep.mkString(","))
+    println(refined._2.data.deep.mkString(","))
+
 //    println(weight.toArray.deep.mkString(","))
 //    println(weight.cols, weight.rows)
 
     val row: DenseMatrix[Double] = getRow(itemMatrix,474)
 
-    val prediction = row.t * weight.t
+    //val prediction = row.t * weight.t
 //    val x: DenseMatrix[Double] = row.t * tempMatrix
 
-    println(prediction.data.deep.mkString(","))
+    //println(prediction.data.deep.mkString(","))
 
   }
-  def removeZeroLines(userMatrix: DenseMatrix[Double], itemMatrix:DenseMatrix[Double]): (DenseMatrix[Double], DenseMatrix[Double]) = {
-    val localItemMatrix = itemMatrix.copy
+  def getRefinedMatrices(userMatrix: DenseMatrix[Double], itemMatrix:DenseMatrix[Double]): (DenseMatrix[Double], DenseMatrix[Double]) = {
+    val localItemMatrix = itemMatrix.copy   //// here doesnt delete rows
     val localUserMatrix = userMatrix.copy
     userMatrix.foreachKey { v =>
       if (userMatrix(v._1,v._2) == 0) {
