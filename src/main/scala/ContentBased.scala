@@ -71,26 +71,29 @@ object ContentBased {
     println(refined._1.data.deep.mkString(","))
     println(refined._2.data.deep.mkString(","))
 
+    val weight = userWeights.filter(v => v._1 == tempUser).map(v => v._2).first()
+
 //    println(weight.toArray.deep.mkString(","))
 //    println(weight.cols, weight.rows)
 
     val row: DenseMatrix[Double] = getRow(itemMatrix,474)
 
-    //val prediction = row.t * weight.t
+
+    val prediction = row.t * weight.t
 //    val x: DenseMatrix[Double] = row.t * tempMatrix
 
-    //println(prediction.data.deep.mkString(","))
+    println(prediction.data.deep.mkString(","))
 
   }
   def getRefinedMatrices(userMatrix: DenseMatrix[Double], itemMatrix:DenseMatrix[Double]): (DenseMatrix[Double], DenseMatrix[Double]) = {
-    val localItemMatrix = itemMatrix.copy   //// here doesnt delete rows
-    val localUserMatrix = userMatrix.copy
+    val sequence = Seq()
     userMatrix.foreachKey { v =>
       if (userMatrix(v._1,v._2) == 0) {
-        localUserMatrix.delete(v._1, Axis._0)
-        localItemMatrix.delete(v._1, Axis._0)
+        sequence :+ v._1
       }
     }
+    val localItemMatrix = itemMatrix.delete(sequence, Axis._0)   //// here doesnt delete rows
+    val localUserMatrix = userMatrix.delete(sequence, Axis._0)
     (localUserMatrix, localItemMatrix)
   }
 
