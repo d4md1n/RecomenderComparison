@@ -21,8 +21,16 @@ moviesMatrix2
 moviesMatrix2.foreachKey { v =>
   moviesMatrix2.delete(v._1, Axis._0)
 }
+var sequence = Seq[Int]()
 
-moviesMatrix2
+sequence = sequence :+ 3
+sequence = sequence :+ 4
 
+
+sequence.size
 /// delete returns value, use it
 /// also use delete with sequence
+
+moviesMatrix2
+moviesMatrix2.data
+moviesMatrix2.data.deep

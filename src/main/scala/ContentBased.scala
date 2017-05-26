@@ -1,7 +1,7 @@
 
 import java.util
 
-import breeze.linalg.{*, Axis, DenseMatrix, SliceMatrix}
+import breeze.linalg.{*, Axis, DenseMatrix, SliceMatrix, inv, pinv}
 import breeze.numerics._
 import breeze.optimize.linear.PowerMethod.BDM
 import org.apache.spark.SparkContext
@@ -39,9 +39,13 @@ object ContentBased {
       .map(v => (v._1, generateUserMatrix(v._2)))
 
     val refinedMatrices = usersRatings
-      .map(v => (v._1, getRefinedMatrices(v._2, itemMatrixBreeze )))
+      .map(v => (v._1, getRefinedMatrices(v._2, itemMatrixBreeze)))
 
-    val userWeights = refinedMatrices.map(v => (v._1, v._2._1 \ v._2._2))
+    val userWeights = refinedMatrices.map(v =>
+      (
+        v._1, pinv(v._2._2) * v._2._1
+      )
+    )
 
 
     val testRatings = sparkContext.textFile("ml-100k/u1.test")
@@ -68,28 +72,39 @@ object ContentBased {
 
     val refined: (DenseMatrix[Double], DenseMatrix[Double]) = refinedMatrices.filter(v => v._1==tempUser).map(v=> v._2).first()
 
-    println(refined._1.data.deep.mkString(","))
-    println(refined._2.data.deep.mkString(","))
+//    println(refined._1.data.deep.mkString(","))
+//    println(refined._2.data.deep.mkString(","))
 
     val weight = userWeights.filter(v => v._1 == tempUser).map(v => v._2).first()
 
 //    println(weight.toArray.deep.mkString(","))
 //    println(weight.cols, weight.rows)
 
-    val row: DenseMatrix[Double] = getRow(itemMatrix,474)
+    val row: DenseMatrix[Double] = getRow(itemMatrix,13)
 
 
-    val prediction = row.t * weight.t
-//    val x: DenseMatrix[Double] = row.t * tempMatrix
+    val prediction = row.t * weight
+    val array = new Array[Double](19)
+    val allOne = util.Arrays.fill(array, 1)
+    val total = new DenseMatrix[Double](19,1, array).t * weight /// 0.49
 
+    val x: DenseMatrix[Double] = row * tempMatrix.t
+    println(refined._1.data.deep.mkString(","))
+    println(refined._2.data.deep.mkString(","))
+    println(weight.data.deep.mkString(","))
+    println(row.data.deep.mkString(","))
     println(prediction.data.deep.mkString(","))
+    println(total.data.deep.mkString(","))
+    println(row.cols, row.rows)
+
+
 
   }
   def getRefinedMatrices(userMatrix: DenseMatrix[Double], itemMatrix:DenseMatrix[Double]): (DenseMatrix[Double], DenseMatrix[Double]) = {
-    val sequence = Seq()
+    var sequence = Seq[Int]()
     userMatrix.foreachKey { v =>
       if (userMatrix(v._1,v._2) == 0) {
-        sequence :+ v._1
+        sequence = sequence :+ v._1
       }
     }
     val localItemMatrix = itemMatrix.delete(sequence, Axis._0)   //// here doesnt delete rows
