@@ -43,7 +43,7 @@ object ContentBased {
 
     val userWeights = refinedMatrices.map(v =>
       (
-        v._1, pinv(v._2._2) * v._2._1
+        v._1, generateWeight(v)
       )
     )
 
@@ -100,6 +100,11 @@ object ContentBased {
 
 
   }
+
+  private def generateWeight(v: (Int, (DenseMatrix[Double], DenseMatrix[Double]))) = {
+    pinv(v._2._2) * v._2._1
+  }
+
   def getRefinedMatrices(userMatrix: DenseMatrix[Double], itemMatrix:DenseMatrix[Double]): (DenseMatrix[Double], DenseMatrix[Double]) = {
     var sequence = Seq[Int]()
     userMatrix.foreachKey { v =>
