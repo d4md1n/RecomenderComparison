@@ -106,7 +106,7 @@ object ContentBased {
   }
 
   private def calculateWeightsWithNormalizationFactor(ratingMatrix :DenseMatrix[Double], itemsMatrix: DenseMatrix[Double]) = {
-    pinv(ratingMatrix) * itemsMatrix
+    pinv(ratingMatrix) * itemsMatrix // (lI + RTR)^-1 RTM R= ratingMatrix, M = movie Matrix
   }
 
   def getRefinedMatrices(userMatrix: DenseMatrix[Double], itemMatrix:DenseMatrix[Double]): (DenseMatrix[Double], DenseMatrix[Double]) = {
