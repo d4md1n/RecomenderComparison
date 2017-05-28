@@ -41,12 +41,7 @@ object ContentBased {
     val refinedMatrices = usersRatings
       .map(v => (v._1, getRefinedMatrices(v._2, itemMatrixBreeze)))
 
-    val userWeights = refinedMatrices.map(v =>
-      (
-        v._1, generateWeight(v)
-      )
-    )
-
+    val userWeights = refinedMatrices.map(v => (v._1, generateWeight(v)))
 
     val testRatings = sparkContext.textFile("ml-100k/u1.test")
       .map(_.split("\t") match {
@@ -58,55 +53,85 @@ object ContentBased {
       case Rating(user, product, rate) => (user, product)
     }
 
-    // for each user predict an then join
-//    usersProducts.first()._2.dot(toBreeze(itemMatrix)(0))
+    // predict
 
-   // val item = getRow(itemMatrix, 1)
+    val predictions = usersProducts.map(v =>
+      ((v._1, v._2),
+        predict(
+          getUsersWeight(userWeights, v._1),
+           getRow(itemMatrixBreeze, v._2 - 1))
+      ))
+
+    val ratesAndPredictions = testRatings.map {
+      case Rating(user, product, rate) => ((user, product), rate)
+    }.join(predictions)
+
+    val MSE = Metrics.getMSE(ratesAndPredictions)
 
 
+    println(MSE)
 
-
-    val temp = usersRatings.first()
-    val tempUser: Int = 770
-    val tempMatrix = temp._2
-
-    val refined: (DenseMatrix[Double], DenseMatrix[Double]) = refinedMatrices.filter(v => v._1==tempUser).map(v=> v._2).first()
-
+//
+//    val temp = usersRatings.first()
+//    val tempUser: Int = 770
+//    val tempMatrix = temp._2
+//
+//    val refined: (DenseMatrix[Double], DenseMatrix[Double]) = refinedMatrices.filter(v => v._1==tempUser).map(v=> v._2).first()
+//
+////    println(refined._1.data.deep.mkString(","))
+////    println(refined._2.data.deep.mkString(","))
+//
+//    val weight = userWeights.filter(v => v._1 == tempUser).map(v => v._2).first()
+//
+////    println(weight.toArray.deep.mkString(","))
+////    println(weight.cols, weight.rows)
+//
+//    val row: DenseMatrix[Double] = getRow(itemMatrix,13)
+//
+//
+//    val prediction = predict(weight, row)
+//    val array = new Array[Double](19)
+//    val allOne = util.Arrays.fill(array, 1)
+//    val total = predict(weight, new DenseMatrix[Double](19, 1, array)) /// 0.49
+//
+//    val x: DenseMatrix[Double] = row * tempMatrix.t
 //    println(refined._1.data.deep.mkString(","))
 //    println(refined._2.data.deep.mkString(","))
-
-    val weight = userWeights.filter(v => v._1 == tempUser).map(v => v._2).first()
-
-//    println(weight.toArray.deep.mkString(","))
-//    println(weight.cols, weight.rows)
-
-    val row: DenseMatrix[Double] = getRow(itemMatrix,13)
-
-
-    val prediction = row.t * weight
-    val array = new Array[Double](19)
-    val allOne = util.Arrays.fill(array, 1)
-    val total = new DenseMatrix[Double](19,1, array).t * weight /// 0.49
-
-    val x: DenseMatrix[Double] = row * tempMatrix.t
-    println(refined._1.data.deep.mkString(","))
-    println(refined._2.data.deep.mkString(","))
-    println(weight.data.deep.mkString(","))
-    println(row.data.deep.mkString(","))
-    println(prediction.data.deep.mkString(","))
-    println(total.data.deep.mkString(","))
-    println(row.cols, row.rows)
+//    println(weight.data.deep.mkString(","))
+//    println(row.data.deep.mkString(","))
+//    println(prediction.data.deep.mkString(","))
+//    println(total.data.deep.mkString(","))
+//    println(row.cols, row.rows)
+//
 
 
+  }
+
+
+  private def getUsersWeight(userWeights: RDD[(Int, DenseMatrix[Double])], user: Int) = {
+    userWeights.filter(v => v._1 == user).first()._2
+  }
+
+  private def predict(weight: DenseMatrix[Double], item: DenseMatrix[Double]): Double = {
+    val result = item.t * weight
+    if (result.data.length > 1) {
+      println("something went wrong on prediction")
+      0
+    }
+    else result.data.apply(0)
 
   }
 
   private def generateWeight(v: (Int, (DenseMatrix[Double], DenseMatrix[Double]))) = {
-    calculateWeightsWithNormalizationFactor(v._2._2, v._2._1)
+    calculateWeightsWithoutNormalizationFactor(v._2._2, v._2._1)
   }
 
-  private def calculateWeightsWithNormalizationFactor(ratingMatrix :DenseMatrix[Double], itemsMatrix: DenseMatrix[Double]) = {
-    pinv(ratingMatrix) * itemsMatrix // (lI + RTR)^-1 RTM R= ratingMatrix, M = movie Matrix
+  private def calculateWeightsWithNormalizationFactor(ratingMatrix :DenseMatrix[Double], itemMatrix: DenseMatrix[Double]) = {
+    pinv(ratingMatrix) * itemMatrix // (lI + RTR)^-1 RTM R= ratingMatrix, M = movie Matrix
+  }
+
+  private def calculateWeightsWithoutNormalizationFactor(ratingMatrix :DenseMatrix[Double], itemsMatrix: DenseMatrix[Double]) = {
+    pinv(ratingMatrix) * itemsMatrix
   }
 
   def getRefinedMatrices(userMatrix: DenseMatrix[Double], itemMatrix:DenseMatrix[Double]): (DenseMatrix[Double], DenseMatrix[Double]) = {
@@ -122,10 +147,10 @@ object ContentBased {
   }
 
 
-  def getRow(matrix: Matrix, row: Int): DenseMatrix[Double] = {
-    val numberOfColumns = matrix.numCols
+  def getRow(matrix: DenseMatrix[Double], row: Int): DenseMatrix[Double] = {
+    val numberOfColumns = matrix.cols
     val array = new Array[Double](numberOfColumns)
-    for (i <- 0 until matrix.numCols){
+    for (i <- 0 until numberOfColumns){
       array(i)=matrix(row,i)
     }
     new DenseMatrix(numberOfColumns ,1, array)
