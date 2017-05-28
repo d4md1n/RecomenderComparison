@@ -16,6 +16,7 @@ import org.apache.spark.rdd.RDD
 object ContentBased {
 
   val sparkContext: SparkContext = Infrastructure.sparkContext
+  val normalizationFactor: Double = 0.09
 
 
   def main(args: Array[String]) {
@@ -23,7 +24,6 @@ object ContentBased {
     //      .map(dataSet => getMetricsForDataset(dataSet._1, dataSet._2))
     //      .foreach(metric => println(metric))
     //    println("training set", "testing set", "MSE", "RMSE", "MAE", "Execution Time")
-
 
     val itemsMatrixEntries: RDD[MatrixEntry] = generateItemMatrixEntries
     val itemMatrix: Matrix = new CoordinateMatrix(itemsMatrixEntries).toBlockMatrix().toLocalMatrix()
@@ -102,7 +102,11 @@ object ContentBased {
   }
 
   private def generateWeight(v: (Int, (DenseMatrix[Double], DenseMatrix[Double]))) = {
-    pinv(v._2._2) * v._2._1
+    calculateWeightsWithNormalizationFactor(v._2._2, v._2._1)
+  }
+
+  private def calculateWeightsWithNormalizationFactor(ratingMatrix :DenseMatrix[Double], itemsMatrix: DenseMatrix[Double]) = {
+    pinv(ratingMatrix) * itemsMatrix
   }
 
   def getRefinedMatrices(userMatrix: DenseMatrix[Double], itemMatrix:DenseMatrix[Double]): (DenseMatrix[Double], DenseMatrix[Double]) = {
