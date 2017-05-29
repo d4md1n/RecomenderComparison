@@ -41,7 +41,7 @@ object ContentBased {
     val refinedMatrices = usersRatings
       .map(v => (v._1, getRefinedMatrices(v._2, itemMatrixBreeze)))
 
-    val userWeights = refinedMatrices.map(v => (v._1, generateWeight(v)))
+    val userWeights = refinedMatrices.map(v => Pair(v._1, generateWeight(v)))
 
     val testRatings = sparkContext.textFile("ml-100k/u1.test")
       .map(_.split("\t") match {
@@ -54,11 +54,12 @@ object ContentBased {
     }
 
     // predict
+    val b = sparkContext.broadcast(userWeights.collect())
 
     val predictions = usersProducts.map(v =>
       ((v._1, v._2),
         predict(
-          getUsersWeight(userWeights, v._1),
+          b.value.apply(v._1)._2,
            getRow(itemMatrixBreeze, v._2 - 1))
       ))
 
@@ -109,7 +110,7 @@ object ContentBased {
 
 
   private def getUsersWeight(userWeights: RDD[(Int, DenseMatrix[Double])], user: Int) = {
-    userWeights.filter(v => v._1 == user).first()._2
+    userWeights
   }
 
   private def predict(weight: DenseMatrix[Double], item: DenseMatrix[Double]): Double = {
