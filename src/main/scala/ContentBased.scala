@@ -27,10 +27,18 @@ object ContentBased {
 //
 //    println(getMetricsForDataset(normalizationFactor, trainingSet, testingSet))
 
-    Infrastructure.dataSetList
-      .map(dataSet => getMetricsForDataset(normalizationFactor, dataSet._1, dataSet._2))
-      .foreach(metric => println(metric))
-    println("training set", "testing set", "MSE", "RMSE", "MAE", "Execution Time")
+    val bestNormalizationFactor = Infrastructure.normalizationFactorsList.map { v =>
+      val sum = Infrastructure.dataSetList.map(dataSet => getMetricsForDataset(v, dataSet._1, dataSet._2)).map(u => u._5).sum
+      val mean = sum/Infrastructure.dataSetList.size
+      (v, mean)
+    }.maxBy(v=> v._2)
+
+    println(bestNormalizationFactor)
+
+//    Infrastructure.dataSetList
+//      .map(dataSet => getMetricsForDataset(normalizationFactor, dataSet._1, dataSet._2))
+//      .foreach(metric => println(metric))
+//    println("training set", "testing set", "MSE", "RMSE", "MAE", "Execution Time")
 
   }
 
@@ -94,7 +102,7 @@ object ContentBased {
 
     val executionTime = endingTime - startingTime
 
-    (trainingSet, testingSet, MSE, RMSE, MAE, executionTime)
+    (trainingSet, testingSet, MSE, RMSE, MAE, executionTime, normalizationFactor)
   }
 
   private def predict(weight: DenseMatrix[Double], item: DenseMatrix[Double]): Double = {

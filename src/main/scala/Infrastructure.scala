@@ -1,11 +1,13 @@
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.rdd.RDD
 
+import scala.collection.immutable
+
 object Infrastructure {
-  val sparkConfiguration = new SparkConf()
+  val sparkConfiguration: SparkConf = new SparkConf()
     .setMaster("local[*]")
     .setAppName("RecommenderSystemsComparison")
-  val sparkContext = {
+  val sparkContext: SparkContext = {
     val sc = new SparkContext(sparkConfiguration)
     sc.setCheckpointDir("checkpoint/") // set checkpoint dir to avoid stack overflow
     sc
@@ -26,4 +28,6 @@ object Infrastructure {
     ("ml-100k/ua.base", "ml-100k/ua.test"),
     ("ml-100k/ub.base", "ml-100k/ub.test")
   )
+
+  val normalizationFactorsList: immutable.Seq[Double] = List(0.01,0.03,0.06,0.09,0.12,0.15,0.18,1)
 }
