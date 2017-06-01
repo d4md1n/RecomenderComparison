@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage{url}
 \usepackage{graphicx}
+\usepackage{csvsimple}
+
 
 \title{Master Thesis \\ Recommender Systems Comparison}
 \date{27-05-2017}
@@ -40,6 +42,28 @@ test
 \cite{MovieLens:3}
 
 \section{Results}
+\\
+\begin{table}
+		\caption {Content Based Algorithm Results}
+\begin{tabular}{l|l|r|r}%
+   	\bfseries Training Dataset & \bfseries Testing Dataset & \bfseries Mean Absolute Error & \bfseries  Execution time (ms)% specify table head
+   	\csvreader[head to column names]{../src/contentBased.csv}{}% use head of csv as column names
+   	{\\\hline \trainingSet & \testingSet & \MAE & \ExecutionTime}% specify your coloumns here
+\end{tabular}
+  \label{tab:Content Based Algorithm Results}
+\end{table}
+
+\begin{table}
+		\caption{\bfseries Latent Factors Algorithm Results}
+\begin{tabular}{l|l|r|r}%
+	\bfseries Training Dataset & \bfseries Testing Dataset & \bfseries Mean Absolute Error & \bfseries  Execution time (ms)% specify table head
+	\csvreader[head to column names]{../src/latentFactors.csv}{}% use head of csv as column names
+	{\\\hline \trainingSet & \testingSet & \MAE & \ExecutionTime}% specify your coloumns here
+\end{tabular}
+  \label{tab:Latent Factors Algorithm Results}
+\end{table}
+
+
 \section{Conclusion}
 \section{references}
 
