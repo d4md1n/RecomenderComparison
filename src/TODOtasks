@@ -3,3 +3,4 @@
 3 Optional xgboost
 
 (0.01,1.627690349950544) content based
+(1.0,1.1851761291974618) latent factors(15 rank, 75 iterations)
