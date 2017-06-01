@@ -1,12 +1,11 @@
 
 import java.util
 
-import breeze.linalg.{*, Axis, DenseMatrix, SliceMatrix, inv, pinv}
-import breeze.numerics._
+import breeze.linalg.{Axis, DenseMatrix, pinv}
 import breeze.optimize.linear.PowerMethod.BDM
 import org.apache.spark.SparkContext
-import org.apache.spark.mllib.linalg.{Matrices, Matrix}
-import org.apache.spark.mllib.linalg.distributed.{CoordinateMatrix, IndexedRowMatrix, MatrixEntry, RowMatrix}
+import org.apache.spark.mllib.linalg.Matrix
+import org.apache.spark.mllib.linalg.distributed.{CoordinateMatrix, MatrixEntry}
 import org.apache.spark.mllib.recommendation.Rating
 import org.apache.spark.rdd.RDD
 
@@ -16,24 +15,38 @@ import org.apache.spark.rdd.RDD
 object ContentBased {
 
   val sparkContext: SparkContext = Infrastructure.sparkContext
-  val normalizationFactor: Double = 0.09
-
 
   def main(args: Array[String]) {
-    //    Infrastructure.dataSetList
-    //      .map(dataSet => getMetricsForDataset(dataSet._1, dataSet._2))
-    //      .foreach(metric => println(metric))
-    //    println("training set", "testing set", "MSE", "RMSE", "MAE", "Execution Time")
+
+    val normalizationFactor: Double = 0.9
+
+//    val trainingSet = Infrastructure.dataSetList(3)._1
+//
+//    val testingSet = Infrastructure.dataSetList(3)._2
+//
+//
+//    println(getMetricsForDataset(normalizationFactor, trainingSet, testingSet))
+
+    Infrastructure.dataSetList
+      .map(dataSet => getMetricsForDataset(normalizationFactor, dataSet._1, dataSet._2))
+      .foreach(metric => println(metric))
+    println("training set", "testing set", "MSE", "RMSE", "MAE", "Execution Time")
+
+  }
+
+
+  private def getMetricsForDataset(normalizationFactor: Double, trainingSet: String, testingSet: String) = {
+    val startingTime = System.currentTimeMillis()
 
     val itemsMatrixEntries: RDD[MatrixEntry] = generateItemMatrixEntries
-    val itemMatrix: Matrix = new CoordinateMatrix(itemsMatrixEntries).toBlockMatrix().toLocalMatrix()
 
+    val itemMatrix: Matrix = new CoordinateMatrix(itemsMatrixEntries).toBlockMatrix().toLocalMatrix()
     val itemMatrixBreeze = toBreeze(itemMatrix).copy
 
-    val ratings = sparkContext.textFile("ml-100k/u1.base")
+    val ratings = sparkContext.textFile(trainingSet)
       .map(_.split("\t") match {
         case Array(user, item, rate, timestamp) => Rating(user.toInt, item.toInt, rate.toDouble)
-    }).cache()
+      }).cache()
 
     val usersRatings = ratings.groupBy(r => r.user)
       .map(v => (v._1, generateUserMatrix(v._2)))
@@ -41,9 +54,8 @@ object ContentBased {
     val refinedMatrices = usersRatings
       .map(v => (v._1, getRefinedMatrices(v._2, itemMatrixBreeze)))
 
-    val userWeights = refinedMatrices.map(v => Pair(v._1, generateWeight(v)))
-
-    val testRatings = sparkContext.textFile("ml-100k/u1.test")
+    val userWeights = refinedMatrices.map(v => Pair(v._1, generateWeight(v, normalizationFactor)))
+    val testRatings = sparkContext.textFile(testingSet)
       .map(_.split("\t") match {
         case Array(user, item, rate, timestamp) => Rating(user.toInt, item.toInt, rate.toDouble)
       }).cache()
@@ -59,58 +71,30 @@ object ContentBased {
     val predictions = usersProducts.map(v =>
       ((v._1, v._2),
         predict(
-          b.value.apply(v._1)._2,
-           getRow(itemMatrixBreeze, v._2 - 1))
+          b.value.apply(v._1 - 1)._2,
+          getRow(itemMatrixBreeze, v._2 - 1))
       ))
 
     val ratesAndPredictions = testRatings.map {
       case Rating(user, product, rate) => ((user, product), rate)
     }.join(predictions)
 
+    ///// Metrics ////
+
+    // calculate MSE (Mean Square Error)
     val MSE = Metrics.getMSE(ratesAndPredictions)
 
+    // calculate RMSE (Root Mean Square Error)
+    val RMSE = Math.sqrt(MSE)
 
-    println(MSE)
+    // calculate MAE (Mean Absolute Error)
+    val MAE = Metrics.getMAE(ratesAndPredictions)
 
-//
-//    val temp = usersRatings.first()
-//    val tempUser: Int = 770
-//    val tempMatrix = temp._2
-//
-//    val refined: (DenseMatrix[Double], DenseMatrix[Double]) = refinedMatrices.filter(v => v._1==tempUser).map(v=> v._2).first()
-//
-////    println(refined._1.data.deep.mkString(","))
-////    println(refined._2.data.deep.mkString(","))
-//
-//    val weight = userWeights.filter(v => v._1 == tempUser).map(v => v._2).first()
-//
-////    println(weight.toArray.deep.mkString(","))
-////    println(weight.cols, weight.rows)
-//
-//    val row: DenseMatrix[Double] = getRow(itemMatrix,13)
-//
-//
-//    val prediction = predict(weight, row)
-//    val array = new Array[Double](19)
-//    val allOne = util.Arrays.fill(array, 1)
-//    val total = predict(weight, new DenseMatrix[Double](19, 1, array)) /// 0.49
-//
-//    val x: DenseMatrix[Double] = row * tempMatrix.t
-//    println(refined._1.data.deep.mkString(","))
-//    println(refined._2.data.deep.mkString(","))
-//    println(weight.data.deep.mkString(","))
-//    println(row.data.deep.mkString(","))
-//    println(prediction.data.deep.mkString(","))
-//    println(total.data.deep.mkString(","))
-//    println(row.cols, row.rows)
-//
+    val endingTime = System.currentTimeMillis()
 
+    val executionTime = endingTime - startingTime
 
-  }
-
-
-  private def getUsersWeight(userWeights: RDD[(Int, DenseMatrix[Double])], user: Int) = {
-    userWeights
+    (trainingSet, testingSet, MSE, RMSE, MAE, executionTime)
   }
 
   private def predict(weight: DenseMatrix[Double], item: DenseMatrix[Double]): Double = {
@@ -123,15 +107,22 @@ object ContentBased {
 
   }
 
-  private def generateWeight(v: (Int, (DenseMatrix[Double], DenseMatrix[Double]))) = {
-    calculateWeightsWithoutNormalizationFactor(v._2._2, v._2._1)
+  private def generateWeight(v: (Int, (DenseMatrix[Double], DenseMatrix[Double])), normalizationFactor: Double): DenseMatrix[Double] = {
+    calculateWeightsWithNormalizationFactor(v._2._2, v._2._1, normalizationFactor)
   }
 
-  private def calculateWeightsWithNormalizationFactor(ratingMatrix :DenseMatrix[Double], itemMatrix: DenseMatrix[Double]) = {
-    pinv(ratingMatrix) * itemMatrix // (lI + RTR)^-1 RTM R= ratingMatrix, M = movie Matrix
+  private def calculateWeightsWithNormalizationFactor(ratingMatrix :DenseMatrix[Double], itemMatrix: DenseMatrix[Double], normalizationFactor: Double): DenseMatrix[Double] = {
+    //pinv( ratingMatrix) * itemMatrix // (lI + RTR)^-1 RTM R= ratingMatrix, M = movie Matrix
+    val lambdaIdentity = DenseMatrix.eye[Double](ratingMatrix.cols) :* normalizationFactor
+    pinv(
+      lambdaIdentity
+        +
+        (ratingMatrix.t * ratingMatrix)
+    ) * (ratingMatrix.t * itemMatrix)
   }
 
-  private def calculateWeightsWithoutNormalizationFactor(ratingMatrix :DenseMatrix[Double], itemsMatrix: DenseMatrix[Double]) = {
+
+  private def calculateWeightsWithoutNormalizationFactor(ratingMatrix :DenseMatrix[Double], itemsMatrix: DenseMatrix[Double]): DenseMatrix[Double] = {
     pinv(ratingMatrix) * itemsMatrix
   }
 
@@ -166,7 +157,7 @@ object ContentBased {
     new DenseMatrix(numberOfItems ,1, array)
   }
 
-  private def toBreeze(matrix: Matrix)= {
+  private def toBreeze(matrix: Matrix): DenseMatrix[Double] = {
     val breezeMatrix = new BDM(matrix.numRows, matrix.numCols, matrix.toArray)
     if (!matrix.isTransposed) {
       breezeMatrix
@@ -175,7 +166,7 @@ object ContentBased {
     }
   }
 
-  private def generateItemMatrixEntries = {
+  private def generateItemMatrixEntries: RDD[MatrixEntry] = {
     Infrastructure.items.flatMap(a => Array(
     MatrixEntry(a(0).toLong - 1, 0, a(4).toInt),
     MatrixEntry(a(0).toLong - 1, 1, a(5).toInt),
