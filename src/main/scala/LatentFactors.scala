@@ -7,18 +7,18 @@ object LatentFactors {
   val sparkContext: SparkContext = Infrastructure.sparkContext
 
   def main(args: Array[String]) {
-//    Infrastructure.dataSetList
-//      .map(dataSet => getMetricsForDataset(dataSet._1, dataSet._2))
-//      .foreach(metric => println(metric))
-//    println("training set", "testing set", "MSE", "RMSE", "MAE", "Execution Time")
+    Infrastructure.dataSetList
+      .map(dataSet => getMetricsForDataset(dataSet._1, dataSet._2, 1.0))
+      .foreach(metric => println(metric))
+    println("training set", "testing set", "MSE", "RMSE", "MAE", "Execution Time")
 
-    val bestNormalizationFactor = Infrastructure.normalizationFactorsList.map { v =>
-      val sum = Infrastructure.dataSetList.map(dataSet => getMetricsForDataset(dataSet._1, dataSet._2, v)).map(u => u._5).sum
-      val mean = sum/Infrastructure.dataSetList.size
-      (v, mean)
-    }.maxBy(v=> v._2)
-
-    println(bestNormalizationFactor)
+//    val bestNormalizationFactor = Infrastructure.normalizationFactorsList.map { v =>
+//      val sum = Infrastructure.dataSetList.map(dataSet => getMetricsForDataset(dataSet._1, dataSet._2, v)).map(u => u._5).sum
+//      val mean = sum/Infrastructure.dataSetList.size
+//      (v, mean)
+//    }.maxBy(v=> v._2)
+//
+//    println(bestNormalizationFactor)
   }
 
   private def getMetricsForDataset(trainingSet:String, testingSet:String, normalizationFactor: Double) = {

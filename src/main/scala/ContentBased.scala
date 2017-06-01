@@ -18,7 +18,7 @@ object ContentBased {
 
   def main(args: Array[String]) {
 
-    val normalizationFactor: Double = 0.9
+    val normalizationFactor: Double = 0.01
 
 //    val trainingSet = Infrastructure.dataSetList(3)._1
 //
@@ -27,18 +27,18 @@ object ContentBased {
 //
 //    println(getMetricsForDataset(normalizationFactor, trainingSet, testingSet))
 
-    val bestNormalizationFactor = Infrastructure.normalizationFactorsList.map { v =>
-      val sum = Infrastructure.dataSetList.map(dataSet => getMetricsForDataset(v, dataSet._1, dataSet._2)).map(u => u._5).sum
-      val mean = sum/Infrastructure.dataSetList.size
-      (v, mean)
-    }.maxBy(v=> v._2)
+//    val bestNormalizationFactor = Infrastructure.normalizationFactorsList.map { v =>
+//      val sum = Infrastructure.dataSetList.map(dataSet => getMetricsForDataset(v, dataSet._1, dataSet._2)).map(u => u._5).sum
+//      val mean = sum/Infrastructure.dataSetList.size
+//      (v, mean)
+//    }.maxBy(v=> v._2)
+//
+//    println(bestNormalizationFactor)
 
-    println(bestNormalizationFactor)
-
-//    Infrastructure.dataSetList
-//      .map(dataSet => getMetricsForDataset(normalizationFactor, dataSet._1, dataSet._2))
-//      .foreach(metric => println(metric))
-//    println("training set", "testing set", "MSE", "RMSE", "MAE", "Execution Time")
+    Infrastructure.dataSetList
+      .map(dataSet => getMetricsForDataset(normalizationFactor, dataSet._1, dataSet._2))
+      .foreach(metric => println(metric))
+    println("training set", "testing set", "MSE", "RMSE", "MAE", "Execution Time")
 
   }
 
