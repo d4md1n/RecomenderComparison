@@ -30,27 +30,7 @@
 \cite{RecommenderSystems:2}
 \cite{MovieLens:3}
 
-\section{Results}
-\begin{table}[ht]
-		\caption {\bfseries Content Based Algorithm Results}
-\begin{tabular}{l|l|r|r}%
-   	\bfseries Training Dataset & \bfseries Testing Dataset & \bfseries Mean Absolute Error & \bfseries  Execution time (ms)% specify table head
-   	\csvreader[head to column names]{data/contentBased.csv}{}% use head of csv as column names
-   	{\\\hline \trainingSet & \testingSet & \MAE & \ExecutionTime}% specify your coloumns here
-\end{tabular}
-  \label{tab:Content Based Algorithm Results}
-\end{table}
-
-\begin{table}[ht]
-		\caption{\bfseries Latent Factors Algorithm Results}
-\begin{tabular}{l|l|r|r}%
-	\bfseries Training Dataset & \bfseries Testing Dataset & \bfseries Mean Absolute Error & \bfseries  Execution time (ms)% specify table head
-	\csvreader[head to column names]{data/latentFactors.csv}{}% use head of csv as column names
-	{\\\hline \trainingSet & \testingSet & \MAE & \ExecutionTime}% specify your coloumns here
-\end{tabular}
-  \label{tab:Latent Factors Algorithm Results}
-\end{table}
-
+\input{results.tex}
 
 \section{Conclusion}
 \section{references}
