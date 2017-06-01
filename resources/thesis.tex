@@ -17,8 +17,7 @@
 \pagenumbering{roman}
 
 \part{Master Thesis}
-\section{Intro}
-
+\input{intro.tex}
 \section{Collaborative filtering}
 \subsection{Content based}
 \subsection{Latent Factors}
@@ -32,7 +31,7 @@ asd
 ds
 \begin{figure}[ht]
 \centering
-\includegraphics[width=0.7\linewidth]{equation01}
+\includegraphics[width=0.7\linewidth]{images/equation01}
 \caption{\bfseries Equation}
 \label{fig:equation01}
 \end{figure}
@@ -53,7 +52,7 @@ ds
 		\caption {\bfseries Content Based Algorithm Results}
 \begin{tabular}{l|l|r|r}%
    	\bfseries Training Dataset & \bfseries Testing Dataset & \bfseries Mean Absolute Error & \bfseries  Execution time (ms)% specify table head
-   	\csvreader[head to column names]{../src/contentBased.csv}{}% use head of csv as column names
+   	\csvreader[head to column names]{data/contentBased.csv}{}% use head of csv as column names
    	{\\\hline \trainingSet & \testingSet & \MAE & \ExecutionTime}% specify your coloumns here
 \end{tabular}
   \label{tab:Content Based Algorithm Results}
@@ -63,7 +62,7 @@ ds
 		\caption{\bfseries Latent Factors Algorithm Results}
 \begin{tabular}{l|l|r|r}%
 	\bfseries Training Dataset & \bfseries Testing Dataset & \bfseries Mean Absolute Error & \bfseries  Execution time (ms)% specify table head
-	\csvreader[head to column names]{../src/latentFactors.csv}{}% use head of csv as column names
+	\csvreader[head to column names]{data/latentFactors.csv}{}% use head of csv as column names
 	{\\\hline \trainingSet & \testingSet & \MAE & \ExecutionTime}% specify your coloumns here
 \end{tabular}
   \label{tab:Latent Factors Algorithm Results}
