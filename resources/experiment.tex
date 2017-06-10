@@ -1,24 +1,16 @@
 \section{Our Experiment}
 \subsection{Infrastructure}
 \subsubsection{Apache Spark}
-What is map reduce
-How spark differentiates from its predecessors, hadoop yarn
-
-
-
-Resilient Distributed Datasets (RDDs)
-
-mllibs
-
-
-add spark jira note
-broadcasting rdd
+What is map reduce\\
+How spark differentiates from its predecessors, hadoop yarn\\
+Resilient Distributed Datasets (RDDs) \\
+mllibs\\
+add spark jira note \\
+broadcasting rdd \\
 //cite the mastering apache spark book
-
-\cite{ApacheSpark:1}
-
+\cite{ApacheSpark:1} \\
+a Spark cluster to be created on AWS EC2 storage.\\
 New trends on spark https://github.com/apache-spark-on-k8s/spark cite this repository too.
-
 \subsection{Dataset}
 What is the dataset about. This dataset contains users, movies and the rating user made about the movies.
 This dataset is splited to multiple subsets of 80000 training sets and respective 20000 reviews.
@@ -26,9 +18,7 @@ This dataset is splited to multiple subsets of 80000 training sets and respectiv
 \subsection{Metrics}
 \subsubsection{Mean Absolute Error}
 \begin{equation}
-\sum_{0}^{i}x_{i}^{2}
+MAE = \frac{\sum_{i=1}^{n}{|y_{i}-x_{i}|} }{n} = \frac{\sum_{i=1}^{n}\sqrt{{(y_{i}-x_{i})}^{2}}}{n}
 \end{equation}
 \subsubsection{Execution Time}
-\begin{equation}
-\sum_{0}^{i}x_{i}^{2}
-\end{equation}
+Time is measured in milliseconds.

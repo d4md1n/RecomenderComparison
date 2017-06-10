@@ -9,6 +9,31 @@
   \label{tab:Content Based Algorithm Results}
 \end{table}
 
+\pgfplotstableread[col sep=comma]{data/contentBased.csv}\latentFactorsDataTable
+\begin{tikzpicture}
+\begin{axis}[
+title={Content Based - Mean Absolute Error},
+xlabel= Dataset,
+ylabel=Mean Absolute Error,
+width=1\linewidth, 
+xtick=data,
+xticklabels from table={\latentFactorsDataTable}{trainingSet}]
+\addplot [ybar, fill=blue] table [x expr=\coordindex, y=MAE, col sep=comma] {data/contentBased.csv};
+\end{axis}
+\end{tikzpicture} \\ \\
+\begin{tikzpicture}
+\begin{axis}[
+title={Content Based - Execution Time},
+xlabel= Dataset,
+ylabel=Execution Time,
+width=1\linewidth, 
+xtick=data,
+xticklabels from table={\latentFactorsDataTable}{trainingSet}]
+\addplot [ybar, fill=blue] table [x expr=\coordindex, y=ExecutionTime, col sep=comma] {data/contentBased.csv};
+\end{axis}
+\end{tikzpicture}
+
+
 \begin{table}[ht]
 		\caption{\bfseries Latent Factors Algorithm Results}
 \begin{tabular}{l|l|r|r}%
@@ -18,3 +43,27 @@
 \end{tabular}
   \label{tab:Latent Factors Algorithm Results}
 \end{table}
+
+\pgfplotstableread[col sep=comma]{data/latentFactors.csv}\latentFactorsDataTable
+\begin{tikzpicture}
+\begin{axis}[
+title={Latent Factors - Mean Absolute Error},
+xlabel= Dataset,
+ylabel=Mean Absolute Error,
+width=1\linewidth, 
+xtick=data,
+xticklabels from table={\latentFactorsDataTable}{trainingSet}]
+\addplot [ybar, fill=blue] table [x expr=\coordindex, y=MAE, col sep=comma] {data/latentFactors.csv};
+\end{axis}
+\end{tikzpicture} \\ \\
+\begin{tikzpicture}
+\begin{axis}[
+title={Latent Factors - Execution Time},
+xlabel= Dataset,
+ylabel=Execution Time,
+width=1\linewidth, 
+xtick=data,
+xticklabels from table={\latentFactorsDataTable}{trainingSet}]
+\addplot [ybar, fill=blue] table [x expr=\coordindex, y=ExecutionTime, col sep=comma] {data/latentFactors.csv};
+\end{axis}
+\end{tikzpicture}
