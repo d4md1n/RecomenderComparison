@@ -9,30 +9,6 @@
   \label{tab:Content Based Algorithm Results}
 \end{table}
 
-\pgfplotstableread[col sep=comma]{data/contentBased.csv}\latentFactorsDataTable
-\begin{tikzpicture}
-\begin{axis}[
-title={Content Based - Mean Absolute Error},
-xlabel= Dataset,
-ylabel=Mean Absolute Error,
-width=1\linewidth, 
-xtick=data,
-xticklabels from table={\latentFactorsDataTable}{trainingSet}]
-\addplot [ybar, fill=blue] table [x expr=\coordindex, y=MAE, col sep=comma] {data/contentBased.csv};
-\end{axis}
-\end{tikzpicture} \\ \\
-\begin{tikzpicture}
-\begin{axis}[
-title={Content Based - Execution Time},
-xlabel= Dataset,
-ylabel=Execution Time,
-width=1\linewidth, 
-xtick=data,
-xticklabels from table={\latentFactorsDataTable}{trainingSet}]
-\addplot [ybar, fill=blue] table [x expr=\coordindex, y=ExecutionTime, col sep=comma] {data/contentBased.csv};
-\end{axis}
-\end{tikzpicture}
-
 
 \begin{table}[ht]
 		\caption{\bfseries Latent Factors Algorithm Results}
@@ -44,26 +20,47 @@ xticklabels from table={\latentFactorsDataTable}{trainingSet}]
   \label{tab:Latent Factors Algorithm Results}
 \end{table}
 
+\pgfplotstableread[col sep=comma]{data/contentBased.csv}\contentBasedDataTable
 \pgfplotstableread[col sep=comma]{data/latentFactors.csv}\latentFactorsDataTable
+\begin{figure}[!ht]
+\centering
 \begin{tikzpicture}
 \begin{axis}[
-title={Latent Factors - Mean Absolute Error},
 xlabel= Dataset,
 ylabel=Mean Absolute Error,
 width=1\linewidth, 
 xtick=data,
-xticklabels from table={\latentFactorsDataTable}{trainingSet}]
-\addplot [ybar, fill=blue] table [x expr=\coordindex, y=MAE, col sep=comma] {data/latentFactors.csv};
+xticklabels from table={\latentFactorsDataTable}{trainingSet},
+ymax = 1.8
+]
+\addplot [ybar, fill=red, bar shift=-.3cm, area legend] table [x expr=\coordindex, y=MAE, col sep=comma] {\contentBasedDataTable};
+\addplot [ybar, fill=blue, bar shift=.3cm, area legend] table [x expr=\coordindex, y=MAE, col sep=comma] {\latentFactorsDataTable};
+\addlegendentry{Content Based}
+\addlegendentry{Latent Factors}
 \end{axis}
-\end{tikzpicture} \\ \\
+\end{tikzpicture}
+\caption{\bfseries Latent Factors vs Content Based on Mean Absolute Value}\label{MAE_Comparison}
+\end{figure}
+husjdfsldfkjsaflkj\\
+\begin{figure}[!h]
+\centering
 \begin{tikzpicture}
 \begin{axis}[
-title={Latent Factors - Execution Time},
 xlabel= Dataset,
 ylabel=Execution Time,
 width=1\linewidth, 
 xtick=data,
-xticklabels from table={\latentFactorsDataTable}{trainingSet}]
-\addplot [ybar, fill=blue] table [x expr=\coordindex, y=ExecutionTime, col sep=comma] {data/latentFactors.csv};
+xticklabels from table={\latentFactorsDataTable}{trainingSet},
+legend entries={entry1,entry2}]
+\addplot [ybar, fill=red, bar shift=-.3cm, area legend] table [x expr=\coordindex, y=ExecutionTime, col sep=comma] {\contentBasedDataTable};
+\addplot [ybar, fill=blue, bar shift=.3cm, area legend] table [x expr=\coordindex, y=ExecutionTime, col sep=comma] {\latentFactorsDataTable};
+\addlegendentry{Content Based}
+\addlegendentry{Latent Factors}
 \end{axis}
 \end{tikzpicture}
+\caption{\bfseries Latent Factors vs Content Based on Execution Time}\label{ET_Comparison}
+\end{figure}
+
+
+
+jhsdkfhksjhfkshf
