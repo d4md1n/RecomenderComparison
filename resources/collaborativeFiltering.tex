@@ -2,6 +2,9 @@
 What is collaborative filtering.
 \cite{RecommenderSystems:2}
 \subsection{Content based}
+
+\paragraph{}In content based recommender systems we try to recommend based on features we know. There are two types of content based recommender systems. On the one hand we have the user based recommendation. This recommendation is done by trying to match users profiles, in order to find which item the user i might like. But in real world we don't have the needed information to make the recommendation to the user. On the other hand we have the item-product based recommendation, in this case we are trying to find user that might like the given product. This is match easier due to the fact that you know more about a product than a user, and you can classify them easily.
+\paragraph{}In this case we have a matrix R that contains the rates given by users to items. This matrix most of the times will be low in density, this is because each user does not rate each product. The second matrix we come across is the M. This matrix contains all the movies with the their genres. Each characteristic is binary. For example, the movie with id i is both action and comedy and none of the other genres.
 \begin{equation}
  w=R^{-1}M^{T}
 \end{equation}
@@ -12,17 +15,6 @@ Normalized \\
 \end{equation}
 
 \subsection{Latent Factors}
-test
-sadsad
+\paragraph{} In latent factors recommender systems we follow a similar approach but, in case of ALS(Alternating least squares), we are trying to find metrics that may lead us to the correct recommendation. Those metrics are not distinct, and may change in a number of iterations. Those metrics are inducted from the R matrix as we define it above. This makes this approach more tolerant to missing values, or wrong quality measures. Thus this metric as will be presented bellow is more efficient on prediction and time.
 
-sad
-
-asd
-
-ds
-\begin{figure}[ht]
-\centering
-\includegraphics[width=0.7\linewidth]{images/equation01}
-\caption{\bfseries Equation}
-\label{fig:equation02}
-\end{figure}
+\paragraph{} ALS explanation.
