@@ -79,3 +79,11 @@ spark-warehouse/
 .Rhistory
 *.Rproj
 *.Rproj.*
+*.aux
+*.bbl
+*.blg
+*.lof
+*.log
+*.lot
+*.synctex.gz
+*.toc
