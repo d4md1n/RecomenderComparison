@@ -11,6 +11,8 @@ Important note: cite apache hadoop yarn https://hadoop.apache.org/docs/current/h
 \\\\
 Important note: add architecture diagrams for both hadoop and spark --> note the common parts of HDFS and YARN
 \\\\
+apache mesos -> data center operating system, references
+\\\\
 But innovation knocked the door and resilient distributed datasets entered the room. In spark world, data are loaded to hdfs as before. Then spark loads them in an RDD, this means that data are now accessible on each machine's memory. Any transformation done to a RDD results a RDD, and so forth. After all the transformations are done, spark can transform the results to a file in hdfs.
 \\\\
 How spark differentiates from its predecessors, hadoop yarn\\
