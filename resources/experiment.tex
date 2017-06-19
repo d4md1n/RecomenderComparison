@@ -6,6 +6,8 @@ But first things first, what is map-reduce. \\\\
 What is map reduce\\
 
 Spark's predecessor, hadoop map reduce, was for a long time at its peak. Hadoop map reduce, is a distributed map-reduce system, this means that it has a mechanism to distribute work on nodes and a common interface for handling data. In hadoop's case this was able to happen due to Apache hadoop yarn and the HDFS (hadoop distributed file system). When a job was scheduled, data were loaded by the hdfs to a worker, then the worker was putting the result back to the hdfs. 
+
+
 \\\\
 Important note: cite apache hadoop yarn https://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html
 \\\\
@@ -14,7 +16,14 @@ Important note: add architecture diagrams for both hadoop and spark --> note the
 apache mesos -> data center operating system, references
 \\\\
 But innovation knocked the door and resilient distributed datasets entered the room. In spark world, data are loaded to hdfs as before. Then spark loads them in an RDD, this means that data are now accessible on each machine's memory. Any transformation done to a RDD results a RDD, and so forth. After all the transformations are done, spark can transform the results to a file in hdfs.
-\\\\
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.5\textwidth]{images/spark-stack.png}
+    \caption{Apache spark stack \cite{ApacheSpark:1}}
+   \label{apacheSparkStack}
+\end{figure}
+
 How spark differentiates from its predecessors, hadoop yarn\\
 Spark lightweight in memory data transformation 
 Resilient Distributed Datasets (RDDs) \\
