@@ -1,8 +1,3 @@
- accepted
-	
-
-Shamelessly pinched from this site, the following provides a Scala language definition for listings. Simply place it in your preamble, and use listings in the normal way.
-
 % "define" Scala
 \lstdefinelanguage{scala}{
   morekeywords={abstract,case,catch,class,def,%
@@ -21,3 +16,10 @@ Shamelessly pinched from this site, the following provides a Scala language defi
   morestring=[b]"""
 }
 
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  frame=single,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
