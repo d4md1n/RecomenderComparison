@@ -7,18 +7,18 @@ object LatentFactors {
   val sparkContext: SparkContext = Infrastructure.sparkContext
 
   def main(args: Array[String]) {
+
+    val bestNormalizationFactor = Infrastructure.normalizationFactorsList.map { v =>
+      val sum = Infrastructure.dataSetList.map(dataSet => getMetricsForDataset(dataSet._1, dataSet._2, v)).map(u => u._5).sum
+      val mean = sum/Infrastructure.dataSetList.size
+      (v, mean)
+    }.maxBy(v=> v._2)
+
     Infrastructure.dataSetList
-      .map(dataSet => getMetricsForDataset(dataSet._1, dataSet._2, 1.0))
+      .map(dataSet => getMetricsForDataset(dataSet._1, dataSet._2, bestNormalizationFactor._2))
       .foreach(metric => println(metric))
     println("training set", "testing set", "MSE", "RMSE", "MAE", "Execution Time")
 
-//    val bestNormalizationFactor = Infrastructure.normalizationFactorsList.map { v =>
-//      val sum = Infrastructure.dataSetList.map(dataSet => getMetricsForDataset(dataSet._1, dataSet._2, v)).map(u => u._5).sum
-//      val mean = sum/Infrastructure.dataSetList.size
-//      (v, mean)
-//    }.maxBy(v=> v._2)
-//
-//    println(bestNormalizationFactor)
   }
 
   private def getMetricsForDataset(trainingSet:String, testingSet:String, normalizationFactor: Double) = {
@@ -32,10 +32,8 @@ object LatentFactors {
     //// Build the recommendation model using ALS
     val rank = 15 // 10 - 20
     val numIterations = 75 // 50 - 100
-    val model = ALS.train(ratings, rank, numIterations, normalizationFactor) // pollaplasia 3
+    val model = ALS.train(ratings, rank, numIterations, normalizationFactor)
 
-
-    //// compare algorithms on prediction, user recommendation, product recommendation
     //import test dataset
     val testRatings = sparkContext.textFile(testingSet).map(_.split("\t") match { case Array(user, item, rate, timestamp) =>
       Rating(user.toInt, item.toInt, rate.toDouble)

@@ -18,25 +18,14 @@ object ContentBased {
 
   def main(args: Array[String]) {
 
-    val normalizationFactor: Double = 0.01
-
-//    val trainingSet = Infrastructure.dataSetList(3)._1
-//
-//    val testingSet = Infrastructure.dataSetList(3)._2
-//
-//
-//    println(getMetricsForDataset(normalizationFactor, trainingSet, testingSet))
-
-//    val bestNormalizationFactor = Infrastructure.normalizationFactorsList.map { v =>
-//      val sum = Infrastructure.dataSetList.map(dataSet => getMetricsForDataset(v, dataSet._1, dataSet._2)).map(u => u._5).sum
-//      val mean = sum/Infrastructure.dataSetList.size
-//      (v, mean)
-//    }.maxBy(v=> v._2)
-//
-//    println(bestNormalizationFactor)
+    val bestNormalizationFactor = Infrastructure.normalizationFactorsList.map { v =>
+      val sum = Infrastructure.dataSetList.map(dataSet => getMetricsForDataset(v, dataSet._1, dataSet._2)).map(u => u._5).sum
+      val mean = sum/Infrastructure.dataSetList.size
+      (v, mean)
+    }.maxBy(v=> v._2)
 
     Infrastructure.dataSetList
-      .map(dataSet => getMetricsForDataset(normalizationFactor, dataSet._1, dataSet._2))
+      .map(dataSet => getMetricsForDataset(bestNormalizationFactor._2, dataSet._1, dataSet._2))
       .foreach(metric => println(metric))
     println("training set", "testing set", "MSE", "RMSE", "MAE", "Execution Time")
 
@@ -120,7 +109,6 @@ object ContentBased {
   }
 
   private def calculateWeightsWithNormalizationFactor(ratingMatrix :DenseMatrix[Double], itemMatrix: DenseMatrix[Double], normalizationFactor: Double): DenseMatrix[Double] = {
-    //pinv( ratingMatrix) * itemMatrix // (lI + RTR)^-1 RTM R= ratingMatrix, M = movie Matrix
     val lambdaIdentity = DenseMatrix.eye[Double](ratingMatrix.cols) :* normalizationFactor
     pinv(
       lambdaIdentity
@@ -141,7 +129,7 @@ object ContentBased {
         sequence = sequence :+ v._1
       }
     }
-    val localItemMatrix = itemMatrix.delete(sequence, Axis._0)   //// here doesnt delete rows
+    val localItemMatrix = itemMatrix.delete(sequence, Axis._0)
     val localUserMatrix = userMatrix.delete(sequence, Axis._0)
     (localUserMatrix, localItemMatrix)
   }
