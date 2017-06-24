@@ -1,32 +1,34 @@
 \section{Our Experiment}
 \subsection{Infrastructure}
 \subsubsection{Apache Spark}
-\paragraph{}Apache spark is the new trend on distributed computation and map-reduce. 
-But first things first, what is map-reduce? \\
-Map reduce is a method that is around a lot time for handling large amounts of data. It has two basic processes, Map which is responsible for turning the data into key value pairs, and Reduce which takes those pairs and turns them into valuable data.
+The last decade, analyzing big data is at its peek. Lots of data are produced and the need for getting information from them is raised. The most common technique to do this is map-reduce.
+
+Map-reduce is a method that is around a lot time for handling large amounts of data. It has two basic processes, Map which is responsible for turning the data into key value pairs, and Reduce which takes those pairs and turns them into valuable data.
 
 As mentioned in \cite{ibmMapReduce:5}, "The term MapReduce actually refers to two separate and distinct tasks that Hadoop programs perform. The first is the map job, which takes a set of data and converts it into another set of data, where individual elements are broken down into tuples (key/value pairs). The reduce job takes the output from a map as input and combines those data tuples into a smaller set of tuples. As the sequence of the name MapReduce implies, the reduce job is always performed after the map job."
 
-If we would like to see where in the DIKW (Data Information Knowledge Wisdom) stack those processes belong, the map would start with data and the reduce will end up with information.
-//comparison between stacks of knowledge. 
+If we would like to see where in the DIKW (Data Information Knowledge Wisdom) stack those processes belong, the map would start with data and the reduce will end up with information.\\
 
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/DIKW.png}
+	\caption{\bfseries Data Information Knowledge Wisdom Pyramid \cite{TheWisdomHierachy:7}}
+	\label{dikw}
+\end{figure}
 
+Hadoop was the core map-reduce framework the last years. 
 Spark's predecessor, hadoop map reduce, was for a long time at its peak. Hadoop map reduce, is a distributed map-reduce system, this means that it has a mechanism to distribute work on nodes and a common interface for handling data. In hadoop's case this was able to happen due to Apache hadoop yarn and the HDFS (hadoop distributed file system). When a job was scheduled, data were loaded by the hdfs to a worker, then the worker was putting the result back to the hdfs. 
 
-
-\\\\
-Important note: cite apache hadoop yarn https://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html
-\\\\
-Important note: add architecture diagrams for both hadoop and spark --> note the common parts of HDFS and YARN
-\\\\
+\paragraph{}Apache spark is the new trend on distributed computation and map-reduce. 
+But first things first, what is map-reduce? \\
 apache mesos -> data center operating system, references
-\\\\
+\\
 But innovation knocked the door and resilient distributed datasets entered the room. In spark world, data are loaded to hdfs as before. Then spark loads them in an RDD, this means that data are now accessible on each machine's memory. Any transformation done to a RDD results a RDD, and so forth. After all the transformations are done, spark can transform the results to a file in hdfs.
 
 \begin{figure}[ht]
   \centering
     \includegraphics[width=0.5\textwidth]{images/spark-stack.png}
-    \caption{Apache spark stack \cite{ApacheSpark:1}}
+    \caption{\bfseries Apache spark stack \cite{ApacheSpark:1}}
    \label{apacheSparkStack}
 \end{figure}
 
