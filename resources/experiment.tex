@@ -2,8 +2,14 @@
 \subsection{Infrastructure}
 \subsubsection{Apache Spark}
 \paragraph{}Apache spark is the new trend on distributed computation and map-reduce. 
-But first things first, what is map-reduce. \\\\
-What is map reduce\\
+But first things first, what is map-reduce? \\
+Map reduce is a method that is around a lot time for handling large amounts of data. It has two basic processes, Map which is responsible for turning the data into key value pairs, and Reduce which takes those pairs and turns them into valuable data.
+
+As mentioned in \cite{ibmMapReduce:5}, "The term MapReduce actually refers to two separate and distinct tasks that Hadoop programs perform. The first is the map job, which takes a set of data and converts it into another set of data, where individual elements are broken down into tuples (key/value pairs). The reduce job takes the output from a map as input and combines those data tuples into a smaller set of tuples. As the sequence of the name MapReduce implies, the reduce job is always performed after the map job."
+
+If we would like to see where in the DIKW (Data Information Knowledge Wisdom) stack those processes belong, the map would start with data and the reduce will end up with information.
+//comparison between stacks of knowledge. 
+
 
 Spark's predecessor, hadoop map reduce, was for a long time at its peak. Hadoop map reduce, is a distributed map-reduce system, this means that it has a mechanism to distribute work on nodes and a common interface for handling data. In hadoop's case this was able to happen due to Apache hadoop yarn and the HDFS (hadoop distributed file system). When a job was scheduled, data were loaded by the hdfs to a worker, then the worker was putting the result back to the hdfs. 
 
