@@ -9,25 +9,24 @@ As mentioned in \cite{ibmMapReduce:5}, "The term MapReduce actually refers to tw
 
 If we would like to see where in the DIKW (Data Information Knowledge Wisdom) stack those processes belong, the map would start with data and the reduce will end up with information.\\
 
-\begin{figure}[ht]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\textwidth]{images/DIKW.png}
 	\caption{\bfseries Data Information Knowledge Wisdom Pyramid \cite{TheWisdomHierachy:7}}
 	\label{dikw}
 \end{figure}
 
-Hadoop was the core map-reduce framework the last years. In 2009 UC Berkley developed spark \cite{DatabricsSpark:8}.
+Hadoop was the core map-reduce framework the last years.
+As it is described in \cite{Hadoop:9}, and shown in the figure \ref{hadoopStack} hadoop uses hadoop yarn in order to coordinate which process will run on which machine. Also it uses the HDFS (Hadoop Distributed File System) in order to have a common reference for the files over the network. Last but not least, hadoop ecosystem is supported by the Hadoop Commons library. 
 
-//hadoop architecture image \cite{Hadoop:9}
-Spark is the successor of hadoop on map-reduce.
-
-\begin{figure}[ht]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\textwidth]{images/hadoop-stack.png}
 	\caption{\bfseries Hadoup Software Stack}
 	\label{hadoopStack}
 \end{figure}
 
+ In 2009 UC Berkley developed spark \cite{DatabricsSpark:8}.
 Spark's predecessor, hadoop map reduce, was for a long time at its peak. Hadoop map reduce, is a distributed map-reduce system, this means that it has a mechanism to distribute work on nodes and a common interface for handling data. In hadoop's case this was able to happen due to Apache hadoop yarn and the HDFS (hadoop distributed file system). When a job was scheduled, data were loaded by the hdfs to a worker, then the worker was putting the result back to the hdfs. 
 
 \paragraph{}Apache spark is the new trend on distributed computation and map-reduce. 
@@ -43,7 +42,7 @@ But innovation knocked the door and resilient distributed datasets entered the r
    \label{apacheSparkStack}
 \end{figure}
 
-How spark differentiates from its predecessors, hadoop yarn\\
+How spark differentiates from its predecessors\\
 Spark lightweight in memory data transformation 
 Resilient Distributed Datasets (RDDs) \\
 mllibs\\
