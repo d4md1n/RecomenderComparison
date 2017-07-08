@@ -1,5 +1,5 @@
 \section{Results}
-\begin{table}[ht]
+\begin{table}[!h]
 		\caption {\bfseries Content Based Algorithm Results}
 \begin{tabular}{l|l|r|r}%
    	\bfseries Training Dataset & \bfseries Testing Dataset & \bfseries Mean Absolute Error & \bfseries  Execution time (ms)% specify table head
@@ -10,7 +10,7 @@
 \end{table}
 
 
-\begin{table}[ht]
+\begin{table}[!h]
 		\caption{\bfseries Latent Factors Algorithm Results}
 \begin{tabular}{l|l|r|r}%
 	\bfseries Training Dataset & \bfseries Testing Dataset & \bfseries Mean Absolute Error & \bfseries  Execution time (ms)% specify table head
@@ -22,7 +22,7 @@
 
 \pgfplotstableread[col sep=comma]{data/contentBased.csv}\contentBasedDataTable
 \pgfplotstableread[col sep=comma]{data/latentFactors.csv}\latentFactorsDataTable
-\begin{figure}[!ht]
+\begin{figure}[!h]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -41,7 +41,6 @@ ymax = 1.8
 \end{tikzpicture}
 \caption{\bfseries Latent Factors vs Content Based on Mean Absolute Value}\label{MAE_Comparison}
 \end{figure}
-husjdfsldfkjsaflkj\\
 \begin{figure}[!h]
 \centering
 \begin{tikzpicture}
@@ -60,7 +59,3 @@ legend entries={entry1,entry2}]
 \end{tikzpicture}
 \caption{\bfseries Latent Factors vs Content Based on Execution Time}\label{ET_Comparison}
 \end{figure}
-
-
-
-jhsdkfhksjhfkshf
