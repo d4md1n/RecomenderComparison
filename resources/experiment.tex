@@ -62,7 +62,7 @@ mllibs\\
 add spark jira note \\\\
 Important note: mention als distributed broadcasting implementation. 
 \\\\
-broadcasting rdd \\ when we broadcast an RDD, this RDD becomes a local matrix to each machine. This means that you can use it for local calculations.
+When a RDD is been broadcasted in Apache Spark, this RDD becomes a local matrix to each machine. This means that you can use it for local calculations. This adds an overload to each machine depending on RDD's size. But it eliminates the network usage.
 //cite the mastering apache spark book
 \cite{ApacheSpark:1} \\
 a Spark cluster to be created on AWS EC2 storage.\\
@@ -75,6 +75,7 @@ This dataset is splited to multiple subsets of 80000 training sets and respectiv
 \subsection{Implementation and assumptions}
 During the implementation I had to make some assumptions and choices. The first of choices was the framework and the programming language that the implementation would take place. The framework that has been chosen, as you may had already figured out, is apache spark due to its trend and the high scalability it offers. The language of choice was scala, due to its functional nature.
 \subsection{Metrics}
+After the implementation I had to make the choice of the metrics I was going to use.
 \subsubsection{Mean Absolute Error}
 As metrics are commonly used the MSE, RMSE and MAE. Due to the fact that the author prefers the last one, MAE was used in this experiment.
 \begin{equation}
