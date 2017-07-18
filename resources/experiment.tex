@@ -11,8 +11,8 @@ Spark's predecessor, hadoop map reduce, was for a long time at its peak.
 this means that it has a mechanism to distribute work on nodes 
 and a common interface for handling data. In hadoop's case this was able
  to happen due to Apache hadoop yarn and the HDFS (hadoop distributed file system).
- When a job was scheduled, data were loaded by the hdfs to a worker, 
-then the worker was putting the result back to the hdfs. 
+ When a job was scheduled, data were loaded by the HDFS to a worker, 
+then the worker was putting the result back to the HDFS. 
 Map-reduce is a method that is around a lot time for handling large amounts of data. 
 It has two basic processes, Map which is responsible for turning the data into key value pairs, and Reduce which takes those pairs and turns them into valuable data.
 
@@ -41,13 +41,17 @@ As it is described in \cite{Hadoop:9}, and shown in the figure \ref{hadoopStack}
 \end{figure}
 
  In 2009 UC Berkley developed spark \cite{DatabricsSpark:8}.
-Spark's predecessor, hadoop map reduce, was for a long time at its peak. Hadoop map reduce, is a distributed map-reduce system, this means that it has a mechanism to distribute work on nodes and a common interface for handling data. In hadoop's case this was able to happen due to Apache hadoop yarn and the HDFS (hadoop distributed file system). When a job was scheduled, data were loaded by the hdfs to a worker, then the worker was putting the result back to the hdfs. 
+Spark's predecessor, hadoop map-reduce which was for a long time at its peak. Hadoop map reduce, is a distributed map-reduce system. This means that it has a mechanism to distribute work on nodes and a common interface for handling data. In hadoop's case this was able to happen due to Apache hadoop yarn and the HDFS (hadoop distributed file system). When a job was scheduled, each worker loaded the data needed by the HDFS. After the execution the worker was putting the result back to the HDFS.
+
+
+Apache hadoop has also discrete jobs of processing data. The most common jobs are map and reduce but it two more jobs, combine and partition. Hadoop has a master node and N worker nodes. The first is responsible to distribute the work, and the second for the work to be done. Each worker usually is called after the job is executing. Hence we have the mapper, the reducer, the partitioner and the combiner.
+\paragraph{TODO:} To put this to a schema, ... add jobs schema here.
 
 \paragraph{}Apache spark is the new trend on distributed computation and map-reduce. 
 But first things first, what is map-reduce? \\
 apache mesos -> data center operating system, references
 \\
-But innovation knocked the door and resilient distributed datasets entered the room. In spark world, data are loaded to hdfs as before. Then spark loads them in an RDD, this means that data are now accessible on each machine's memory. Any transformation done to a RDD results a RDD, and so forth. After all the transformations are done, spark can transform the results to a file in hdfs.
+But innovation knocked the door and resilient distributed datasets entered the room. In spark world, data are loaded to HDFS as before. Then spark loads them in an RDD, this means that data are now accessible on each machine's memory. Any transformation done to a RDD results a RDD, and so forth. After all the transformations are done, spark can transform the results to a file in HDFS.
 
 \begin{figure}[ht]
   \centering
@@ -56,6 +60,17 @@ But innovation knocked the door and resilient distributed datasets entered the r
    \label{apacheSparkStack}
 \end{figure}
 
+
+\paragraph{TODO:} Like Hadoop, Spark also follow the structure of master-worker. But unlike Hadoop, Spark has functions that can be distributed. To make things clearer, in spark we can have a map job and the result can be the input to another map job, whereas in Hadoop we couldn't do this.
+
+\paragraph{}
+Apache Spark was by design meant to work within Hadoop ecosystem, and most improtanly with the HDFS. Apache Spark does not has a file system by itself. This means that it has to load files from some source. Initially this source was HDFS but Spark has integration with more sources than HDFS. You can load data from almost any database, cloud-based or not, even from a local file system. But most will agree that Hadoop and Spark work together just perfect.
+
+\paragraph{} Once the data are loaded to spark, they are in a structure called RDD (Resilient Distributed Datasets). Those data sets live on disk and on memory. By this you can see that the speed of processing data on Apache Spark it could be much more faster than its predecessor Hadoop map-reduce. 
+
+\paragraph{TODO:} cite a benchmark between hadoop map reduce and apache spark
+
+\paragraph{}
 How spark differentiates from its predecessors\\
 Spark lightweight in memory data transformation 
 Resilient Distributed Datasets (RDDs) \\
