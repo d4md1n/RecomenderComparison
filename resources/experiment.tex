@@ -45,7 +45,15 @@ Spark's predecessor, hadoop map-reduce which was for a long time at its peak. Ha
 
 
 Apache hadoop has also discrete jobs of processing data. The most common jobs are map and reduce but it two more jobs, combine and partition. Hadoop has a master node and N worker nodes. The first is responsible to distribute the work, and the second for the work to be done. Each worker usually is called after the job is executing. Hence we have the mapper, the reducer, the partitioner and the combiner.
-\paragraph{TODO:} To put this to a schema, ... add jobs schema here.
+\paragraph{} To put this to a schema, you can see the figure \ref{hadoopJobsOrder} below.
+
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/HadoopMapReduceProcesses.png}
+	\caption{\bfseries Hadoop Jobs Order}
+	\label{hadoopJobsOrder}
+\end{figure}
 
 \paragraph{}Apache spark is the new trend on distributed computation and map-reduce. 
 But first things first, what is map-reduce? \\
