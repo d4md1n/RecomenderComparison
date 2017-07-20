@@ -4,7 +4,7 @@
 \paragraph{}As the experiment's infrastructure we will describe the frameworks used during the implementation.
 \subsubsection{Apache Spark}
 The last decade, analyzing big data is at its peek. Lots of data are produced on daily basis. This means that the need of extracting information from them is raised. 
-Lots of techniques has been used. The most common technique to do this in a distributed way is map-reduce.
+Lots of techniques has been used in order to manage and analyze this amount of data. One of the analysis reasons is the need for accurate item recommendations to users. Those items could be movies (e.g. Netflix), music (e.g. Spotify) or products in general(e.g. Amazon). The most common technique to do this in a distributed way is map-reduce.
 
 Spark's predecessor, hadoop map reduce, was for a long time at its peak.
  Hadoop map reduce, is a distributed map-reduce system, 
@@ -40,7 +40,8 @@ As it is described in \cite{Hadoop:9}, and shown in the figure \ref{hadoopStack}
 	\label{hadoopStack}
 \end{figure}
 
- In 2009 UC Berkley developed spark \cite{DatabricsSpark:8}.
+ In 2009 UC Berkley developed spark \cite{DatabricsSpark:8}. \paragraph{TODO:} Update citation
+
 Spark's predecessor, hadoop map-reduce which was for a long time at its peak. Hadoop map reduce, is a distributed map-reduce system. This means that it has a mechanism to distribute work on nodes and a common interface for handling data. In hadoop's case this was able to happen due to Apache hadoop yarn and the HDFS (hadoop distributed file system). When a job was scheduled, each worker loaded the data needed by the HDFS. After the execution the worker was putting the result back to the HDFS.
 
 
