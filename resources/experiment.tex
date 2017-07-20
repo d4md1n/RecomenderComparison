@@ -1,28 +1,39 @@
 \newpage
 \section{Our Experiment}
 \subsection{Infrastructure}
-\paragraph{}As the experiment's infrastructure we will describe the frameworks used during the implementation.
+\paragraph{}As the experiment's infrastructure we will describe the frameworks used during the implementation. The framework that has been used to implement the item-based algorithm was Apache Spark. Also the ALS algorithm was used from the Apache Spark's MLLib library. The framework is common to infrastructure because Apache Spark can orchestrate the work on multiple machine as well as in one. So the framework is the closest you can get to the infrastructure.
+
 \subsubsection{Apache Spark}
 The last decade, analyzing big data is at its peek. Lots of data are produced on daily basis. This means that the need of extracting information from them is raised. 
-Lots of techniques has been used in order to manage and analyze this amount of data. One of the analysis reasons is the need for accurate item recommendations to users. Those items could be movies (e.g. Netflix), music (e.g. Spotify) or products in general(e.g. Amazon). The most common technique to do this in a distributed way is map-reduce.
+Lots of frameworks has been used in order to manage and analyze this amount of data. One of the analysis reasons is the need for accurate item recommendations to users. Those items could be movies (e.g. Netflix), music (e.g. Spotify) or products in general(e.g. Amazon). The one of the most popular frameworks that could enable this in a distributed way was Apache's Hadoop MapReduce.
 
-Spark's predecessor, hadoop map reduce, was for a long time at its peak.
+
+Apache Hadoop has also discrete jobs of processing data. The most common jobs are map and reduce but it has two more jobs, combine and partition. Hadoop has a master node and N worker nodes. The first is responsible to distribute the work, and the second for the work to be done. Each worker usually is called after the job is executing. Hence we have the mapper, the reducer, the partitioner and the combiner.
+To put this to a schema, you can see the figure \ref{hadoopJobsOrder} below.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/HadoopMapReduceProcesses.png}
+	\caption{\bfseries Hadoop Jobs Order}
+	\label{hadoopJobsOrder}
+\end{figure}
+
  Hadoop map reduce, is a distributed map-reduce system, 
 this means that it has a mechanism to distribute work on nodes 
-and a common interface for handling data. In hadoop's case this was able
- to happen due to Apache hadoop yarn and the HDFS (hadoop distributed file system).
+and a common interface for handling data. In Hadoop's case this was able to happen due to Apache Hadoop Yarn and the Hadoop Distributed File System or as commonly used HDFS.
  When a job was scheduled, data were loaded by the HDFS to a worker, 
-then the worker was putting the result back to the HDFS. 
-Map-reduce is a method that is around a lot time for handling large amounts of data. 
-It has two basic processes, Map which is responsible for turning the data into key value pairs, and Reduce which takes those pairs and turns them into valuable data.
+then the worker was done, he was putting the result back to the HDFS. 
 
 As mentioned in \cite{ibmMapReduce:5}, "The term MapReduce actually refers to two separate and distinct tasks that Hadoop programs perform. The first is the map job, which takes a set of data and converts it into another set of data, where individual elements are broken down into tuples (key/value pairs). The reduce job takes the output from a map as input and combines those data tuples into a smaller set of tuples. As the sequence of the name MapReduce implies, the reduce job is always performed after the map job."
 
+So Hadoop has two basic processes, Map which is responsible for turning the data into key value pairs, and Reduce which takes those pairs and turns them into valuable data.
 
 If we would like to see where in the DIKW (Data Information Knowledge Wisdom) stack those processes belong, the map would start with data and the reduce will end up with information.
 
-
-
+Of course this in not always the case, like we said above 
+\paragraph{TODO:} remmember to metion above
+a recommender system would take more than one MapReduce cycles.
+ 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\textwidth]{images/DIKW.png}
@@ -30,8 +41,8 @@ If we would like to see where in the DIKW (Data Information Knowledge Wisdom) st
 	\label{dikw}
 \end{figure}
 
-Hadoop was the core map-reduce framework the last years.
-As it is described in \cite{Hadoop:9}, and shown in the figure \ref{hadoopStack} hadoop uses hadoop yarn in order to coordinate which process will run on which machine. Also it uses the HDFS (Hadoop Distributed File System) in order to have a common reference for the files over the network. Last but not least, hadoop ecosystem is supported by the Hadoop Commons library. 
+
+\paragraph{} But lets make a step back and take a look at Hadoop's architecture. As it is described in its official website \cite{Hadoop:9}, and shown in the figure \ref{hadoopStack} Hadoop uses Hadoop yarn in order to coordinate which process will run on which machine. Also it uses, its filesystem, the HDFS in order to have a common reference for the files over the network. Last but not least, Hadoop ecosystem is supported by the Hadoop Commons library. 
 
 \begin{figure}[h]
 	\centering
@@ -40,21 +51,8 @@ As it is described in \cite{Hadoop:9}, and shown in the figure \ref{hadoopStack}
 	\label{hadoopStack}
 \end{figure}
 
+
  In 2009 UC Berkley developed spark \cite{DatabricsSpark:8}. \paragraph{TODO:} Update citation
-
-Spark's predecessor, hadoop map-reduce which was for a long time at its peak. Hadoop map reduce, is a distributed map-reduce system. This means that it has a mechanism to distribute work on nodes and a common interface for handling data. In hadoop's case this was able to happen due to Apache hadoop yarn and the HDFS (hadoop distributed file system). When a job was scheduled, each worker loaded the data needed by the HDFS. After the execution the worker was putting the result back to the HDFS.
-
-
-Apache hadoop has also discrete jobs of processing data. The most common jobs are map and reduce but it two more jobs, combine and partition. Hadoop has a master node and N worker nodes. The first is responsible to distribute the work, and the second for the work to be done. Each worker usually is called after the job is executing. Hence we have the mapper, the reducer, the partitioner and the combiner.
-\paragraph{} To put this to a schema, you can see the figure \ref{hadoopJobsOrder} below.
-
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.5\textwidth]{images/HadoopMapReduceProcesses.png}
-	\caption{\bfseries Hadoop Jobs Order}
-	\label{hadoopJobsOrder}
-\end{figure}
 
 \paragraph{}Apache spark is the new trend on distributed computation and map-reduce. 
 But first things first, what is map-reduce? \\
