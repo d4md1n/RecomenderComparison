@@ -51,13 +51,27 @@ a recommender system would take more than one MapReduce cycles.
 \end{figure}
 
 
- In 2009 UC Berkley developed spark \cite{DatabricsSpark:8}. \paragraph{TODO:} Update citation
 
-\paragraph{}Apache spark is the new trend on distributed computation and map-reduce. 
-But first things first, what is map-reduce? \\
-apache mesos -> data center operating system, references
-\\
-But innovation knocked the door and resilient distributed datasets entered the room. In spark world, data are loaded to HDFS as before. Then spark loads them in an RDD, this means that data are now accessible on each machine's memory. Any transformation done to a RDD results a RDD, and so forth. After all the transformations are done, spark can transform the results to a file in HDFS.
+\paragraph{} In 2009, University of California, Berkley, proposed a new framework for cluster computing in their paper, Spark: Cluster Computing with Working Sets \cite{Zaharia:2010:SCC:1863103.1863113}. They wanted to tackle two major Hadoop issues. 
+
+The first was the iterative jobs. Each Hadoop job reads from the disk to load data. This means that having iterative jobs, on any given algorithm, you were going to get a large time penalty on reading and of course writing to the disk. 
+
+The second issue was the interactive analytics. Each Hadoop SQL interface was running as a seperete job, and as we mentioned previously we have a big impact on execution time.
+
+In order to break the acyclic nature of Hadoop, they introduced the Spark's major abstraction, the RDDs. The name RDD stands for Resilient Distributed Datasets. Those datasets are a read-only collection of objects distributed across machines. If a machine fail, the lost part of the RDD can be recalculated. This notion is called lineage.
+
+Spark is implemented in Scala. Scala is a high-level statically typed programming language. At the time that paper was published it was believed that Spark was the only system available in a general purpose programming language to make clusters process large amount of data. As it was mentioned in \cite{Zaharia:2010:SCC:1863103.1863113} "We believe that Spark is the first system to allow an efficient, general purpose programming language to be used interactively to process large datasets on clusters"
+
+Back to RDDs, an RDD can be created with four different operations as it is described in \cite{Zaharia:2010:SCC:1863103.1863113}. The first operation is loading data from any shared file system. That file system could be HDFS or even an Amazon S3. The second way to create a RDD is by parallelizing any Scala collection. Spark will slice the collection into pieces and distribute it among the nodes. The third way is via transforming an RDD to another one. Because RDDs are immutable, any transformation operation on a RDD, filter, map, flatmap, will generate a new RDD. The last but not least method is by changing an RDDs persistence using save or cache operations.
+
+Spark also give us the power to do a lot of different distributed operations. Some of them was mentioned before, but we also have operations that would return data to the driver program like collect or reduce. 
+
+Another important feature of Sparks spine are the shared variables. Spark at its first appearance introduced two of them. The first shared variable is the broadcasted variables. Those variable, RDDs or not, are variables that are commonly used in an algorithm, like a look-up table. By broadcasting a variable, each node gets a copy of the variable in order to access it quickly. The second shared variable that was introduced in that paper was the Accumulators. Those variable live on the spark context, but they can only be increased by any worker and be read from the driver program only. That paper concludes that Spark can outperform Hadoop in some machine learning algorithms and more specific on logistic regression.
+
+\paragraph{TODO:} cite a benchmark between hadoop map reduce and apache spark
+
+Coming back to today, Spark's current architecture is depicted below in fig. \ref{apacheSparkStack}.
+Apache Spark was by design meant to work within Hadoop ecosystem, and most importantly with the HDFS. Apache Spark does not has a file system by itself. You can load data from almost any database, cloud-based or not, even from a local file system. But most will agree that Hadoop and Spark work together just perfect.
 
 \begin{figure}[ht]
   \centering
@@ -67,16 +81,7 @@ But innovation knocked the door and resilient distributed datasets entered the r
 \end{figure}
 
 
-\paragraph{TODO:} Like Hadoop, Spark also follow the structure of master-worker. But unlike Hadoop, Spark has functions that can be distributed. To make things clearer, in spark we can have a map job and the result can be the input to another map job, whereas in Hadoop we couldn't do this.
-
-\paragraph{}
-Apache Spark was by design meant to work within Hadoop ecosystem, and most improtanly with the HDFS. Apache Spark does not has a file system by itself. This means that it has to load files from some source. Initially this source was HDFS but Spark has integration with more sources than HDFS. You can load data from almost any database, cloud-based or not, even from a local file system. But most will agree that Hadoop and Spark work together just perfect.
-
-\paragraph{} Once the data are loaded to spark, they are in a structure called RDD (Resilient Distributed Datasets). Those data sets live on disk and on memory. By this you can see that the speed of processing data on Apache Spark it could be much more faster than its predecessor Hadoop map-reduce. 
-
-\paragraph{TODO:} cite a benchmark between hadoop map reduce and apache spark
-
-\paragraph{}
+\paragraph{Notes:}
 How spark differentiates from its predecessors\\
 Spark lightweight in memory data transformation 
 Resilient Distributed Datasets (RDDs) \\
