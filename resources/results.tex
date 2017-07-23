@@ -26,12 +26,11 @@ Gathering the results of the above experiment, we can see roughly a very big dif
 \end{tabular}
   \label{tab:Latent Factors Algorithm Results}
 \end{table}
-
 \pgfplotstableread[col sep=comma]{data/contentBased.csv}\contentBasedDataTable
 \pgfplotstableread[col sep=comma]{data/latentFactors.csv}\latentFactorsDataTable
 \begin{figure}[!h]
 \centering
-\begin{tikzpicture}
+\begin{tikzpicture}[scale=0.5]
 \begin{axis}[
 xlabel= Dataset,
 ylabel=Mean Absolute Error,
@@ -50,7 +49,7 @@ ymax = 1.8
 \end{figure}
 \begin{figure}[!h]
 \centering
-\begin{tikzpicture}
+\begin{tikzpicture}[scale=0.5]
 \begin{axis}[
 xlabel= Dataset,
 ylabel=Execution Time,
