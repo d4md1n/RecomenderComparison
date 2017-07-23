@@ -6,8 +6,20 @@ User get advertisements the may be interested in.\cite{RecommenderSystems:2}
 
 \section{Related Work}
 \paragraph{} Below it is listed the related work to this thesis.
+\paragraph{TODO:} Update
+\subsection{RecBench: Benchmarks for Evaluating Performance of Recommender System Architectures \cite{levandoski2011recbench}}
+University of Minnesota, published in 2011 a paper stating a comparison between a recommender framework and a DBMS-based recommender. In that paper they used the Movie Lens dataset 100k, from the Netflix Challenge. The benchmark had five areas of comparison. Those areas were initialization, pure recommendation, filtered recommendation, blended recommendation, item recommendation and item update.
 
-\subsection{RecBench: Benchmarks for Evaluating Performance of Recommender System Architectures}
-\subsection{Comparative Recommender System Evaluation: Benchmarking Recommendation Frameworks}
-\subsection{Recommender Systems Evaluation: A 3D Benchmark}
-\subsection{RiVal: A New Benchmarking Toolkit for Recommender Systems}
+The initialization task was about the preparation needed for the system to go live. The next area was pure recommendation. By pure recommendation the author mean the home page recommendation, meaning the items that are going to be in the home page. Moving forward, we find the filtered recommendation. This recommendation is constrained by variables specific to the item, like movie genre etc. Another area of this evaluation contains the blended recommendation. Those recommendations are based on free text provided by the use in order to search. Item prediction is another are of the evaluation, in this prediction the user is navigated to the items page and the system is trying to predict the user's rating on the item. Last but not least, the paper examines the case of a new item being added to the system and how this is going to be incorporated to it.
+
+As a result, of those experiments the paper conclude that "hand-build recommenders exhibit superior performance in model building and pure recommendation tasks, while DBMS-based recommenders are superior to more complex recommendations such as providing filtered recommendations and blending text-search with recommendation prediction issues.
+
+\subsection{Recommender Systems Evaluation: A 3D Benchmark \cite{said2012recommender}}
+In this paper the authors recognize the need for a common benchmark formula for recommender systems. This need lead them to propose one. They named it the 3D recommendation evaluation because they evaluate a system in three axis. These axis are business models, user requirements, and technical constrains. In business model axis they state that a recommender system must be evaluated on how well it serves the business case it is used for. In their paper they give the example of a video on demand service and evaluate it versus the pay per view business model and pay per subscription.
+
+In the user requirements axis, the evaluate the system based on what need it covers for the users. Is it, for example, going to reduce search time or decision making time.
+
+Last but not least is the technical constrains axis. In this axis the system is being evaluated based on data or hardware constrains, scalability and robustness.
+
+\subsection{RiVal: A New Benchmarking Toolkit for Recommender Systems \cite{said2014rival}}
+RiVal, is an open source tool kit implemented in Java programming language. Rival is available via maven repositories. It is used in order to measure the evaluate recommender systems. Its evaluation is based on three points. Those point are data spiting, item recommendation, candidate item generation and performance measurement. 
