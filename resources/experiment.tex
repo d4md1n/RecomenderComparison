@@ -67,8 +67,9 @@ then the worker was done, he was putting the result back to the HDFS.
    \label{hadoopVsSpark}
 \end{figure}
 
-\paragraph{}Coming back to today, Spark's current architecture is depicted below in fig. \ref{apacheSparkStack}.
-Apache Spark was by design meant to work within Hadoop ecosystem, and most importantly with the HDFS. Apache Spark does not has a file system by itself. You can load data from almost any database, cloud-based or not, even from a local file system. But most will agree that Hadoop and Spark work together just perfect.
+\paragraph{}Coming back to today, Spark's current architecture is depicted below in fig. \ref{apacheSparkStack}. Spark nowadays has an sql interface in order to search in RDDs with in a query language. Aslo Spark support a streaming api to make available real-time analytics. Most of the core machine learning algorithms like ALS, which I used in order to complete this thesis, are inside the Spark's MLlib component. Finally spark has the component GraphX that is used for handling graphs and graph computation.
+
+\paragraph{}Apache Spark was by design meant to work within Hadoop ecosystem, and most importantly with the HDFS. Apache Spark does not has a file system by itself. You can load data from almost any database, cloud-based or not, even from a local file system. But most will agree that Hadoop and Spark work together just perfect.
 
 \begin{figure}[ht]
   \centering
@@ -77,19 +78,8 @@ Apache Spark was by design meant to work within Hadoop ecosystem, and most impor
    \label{apacheSparkStack}
 \end{figure}
 
-\paragraph{Notes:}
-How spark differentiates from its predecessors\\
-Spark lightweight in memory data transformation 
-Resilient Distributed Datasets (RDDs) \\
-mllibs\\
-add spark jira note \\\\
-Important note: mention als distributed broadcasting implementation. 
-\\\\
-When a RDD is been broadcasted in Apache Spark, this RDD becomes a local matrix to each machine. This means that you can use it for local calculations. This adds an overload to each machine depending on RDD's size. But it eliminates the network usage.
-//cite the mastering apache spark book
-\cite{ApacheSpark:1} \\
-a Spark cluster to be created on AWS EC2 storage.\\
-New trends on spark https://github.com/apache-spark-on-k8s/spark cite this repository too.
+\paragraph{} To conclude, Spark has dominated the big data field the last years, Amazon and other cloud providers gives you the option to deploy an Apache Spark cluster on their infrastructure. Also large companies like Google and Intel are actively contributing to projects like Apache Spark On Kubernetes which can be found at the following Github repository (https://github.com/apache-spark-on-k8s/spark)
+
 \subsection{Dataset}
 \paragraph{}What is the dataset about. This dataset contains users, movies and the rating user made about the movies.
 This dataset is splited to multiple subsets of 80000 training sets and respective 20000 reviews.
