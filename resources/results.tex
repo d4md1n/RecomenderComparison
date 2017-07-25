@@ -8,10 +8,11 @@ Gathering the results of the above experiment, we can see roughly a very big dif
 
 \begin{table}[!h]
 		\caption {\bfseries Content Based Algorithm Results}
-\begin{tabular}{l|l|r|r}%
-   	\bfseries Training Dataset & \bfseries Testing Dataset & \bfseries Mean Absolute Error & \bfseries  Execution time (ms)% specify table head
+		\centering
+\begin{tabular}{p{3cm}|p{3cm}|p{3cm}|r}%
+   	\bfseries Training Dataset \newline Testing Dataset & \bfseries Mean Absolute Error & \bfseries Root Mean Square Error & \bfseries  Execution Time (ms)% specify table head
    	\csvreader[head to column names]{data/contentBased.csv}{}% use head of csv as column names
-   	{\\\hline \trainingSet & \testingSet & \MAE & \ExecutionTime}% specify your columns here
+   	{\\\hline \trainingSet \ | \testingSet & \MAE & \RMSE & \ExecutionTime}% specify your columns here
 \end{tabular}
   \label{tab:Content Based Algorithm Results}
 \end{table}
@@ -19,10 +20,11 @@ Gathering the results of the above experiment, we can see roughly a very big dif
 
 \begin{table}[!h]
 		\caption{\bfseries Latent Factors Algorithm Results}
-\begin{tabular}{l|l|r|r}%
-	\bfseries Training Dataset & \bfseries Testing Dataset & \bfseries Mean Absolute Error & \bfseries  Execution time (ms)% specify table head
+		\centering
+\begin{tabular}{p{3cm}|p{3cm}|r}%
+	\bfseries Training Dataset \newline Testing Dataset & \bfseries Mean Absolute Error & \bfseries  Execution time (ms)% specify table head
 	\csvreader[head to column names]{data/latentFactors.csv}{}% use head of csv as column names
-	{\\\hline \trainingSet & \testingSet & \MAE & \ExecutionTime}% specify your columns here
+	{\\\hline \trainingSet \ | \testingSet & \MAE & \ExecutionTime}% specify your columns here
 \end{tabular}
   \label{tab:Latent Factors Algorithm Results}
 \end{table}
@@ -49,7 +51,7 @@ ymax = 1.8
 \end{figure}
 \begin{figure}[!h]
 \centering
-\begin{tikzpicture}[scale=0.5]
+\begin{tikzpicture}
 \begin{axis}[
 xlabel= Dataset,
 ylabel=Execution Time,

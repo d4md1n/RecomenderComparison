@@ -1,7 +1,7 @@
 \newpage
 \section{Our Experiment}
 \subsection{Infrastructure}
-\paragraph{}As the experiment's infrastructure we will describe the frameworks used during the implementation. The framework that has been used to implement the item-based algorithm was Apache Spark. Also the ALS algorithm was used from the Apache Spark's MLLib library. The framework is common to infrastructure because Apache Spark can orchestrate the work on multiple machine as well as in one. So the framework is the closest you can get to the infrastructure.
+\paragraph{}As the experiment's infrastructure we will describe the frameworks used during the implementation. The framework that has been used to implement the item-based algorithm was Apache Spark. The ALS algorithm was used from the Apache Spark's MLLib library. The framework is common to infrastructure because Apache Spark can orchestrate the work on multiple machine as well as in one. So the framework is as close as we can get to the infrastructure.
 
 \subsubsection{Apache Spark}
 \paragraph{}The last decade, analyzing big data is at its peek. Lots of data are produced on daily basis. This means that the need of extracting information from them is raised. 
@@ -67,7 +67,7 @@ then the worker was done, he was putting the result back to the HDFS.
    \label{hadoopVsSpark}
 \end{figure}
 
-\paragraph{}Coming back to today, Spark's current architecture is depicted below in fig. \ref{apacheSparkStack}. Spark nowadays has an sql interface in order to search in RDDs with in a query language. Aslo Spark support a streaming api to make available real-time analytics. Most of the core machine learning algorithms like ALS, which I used in order to complete this thesis, are inside the Spark's MLlib component. Finally spark has the component GraphX that is used for handling graphs and graph computation.
+\paragraph{}Coming back to today, Spark's current architecture is depicted below in fig. \ref{apacheSparkStack}. Spark nowadays has an sql interface in order to search in RDDs with in a query language. Also Spark support a streaming api to make available real-time analytics. Most of the core machine learning algorithms like ALS, which I used in order to complete this thesis, are inside the Spark's MLlib component. Finally spark has the component GraphX that is used for handling graphs and graph computation.
 
 \paragraph{}Apache Spark was by design meant to work within Hadoop ecosystem, and most importantly with the HDFS. Apache Spark does not has a file system by itself. You can load data from almost any database, cloud-based or not, even from a local file system. But most will agree that Hadoop and Spark work together just perfect.
 
