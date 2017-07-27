@@ -42,6 +42,7 @@ Gathering the results of the above experiment, we can see roughly a very big dif
 
 \paragraph{NOTE:} RMSE gives greater error with peaks, meaning that MAE/RMSE 
 
+
 \paragraph{TODO:} Add rmse and mae difference diagrams
 \paragraph{TODO:} Add rmse/mae diagrams
 
@@ -82,7 +83,7 @@ Gathering the results of the above experiment, we can see roughly a very big dif
 
 \pgfplotstableread[col sep=comma]{data/contentBased.csv}\contentBasedDataTable
 \pgfplotstableread[col sep=comma]{data/latentFactors.csv}\latentFactorsDataTable
-\begin{figure}[!h]
+\begin{figure}[ht]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -99,9 +100,31 @@ ymax = 1.8
 \addlegendentry{Latent Factors}
 \end{axis}
 \end{tikzpicture}
-\caption{\bfseries Latent Factors vs Content Based on Mean Absolute Value}\label{MAE_Comparison}
+\caption{\bfseries Latent Factors vs Content Based on Mean Absolute Error}\label{MAE_Comparison}
 \end{figure}
-\begin{figure}[!h]
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+xlabel= Dataset,
+ylabel=Mean Absolute Error,
+width=1\linewidth, 
+xtick=data,
+xticklabels from table={\latentFactorsDataTable}{trainingSet},
+ymax = 2.3
+]
+\addplot [ybar, fill=red, bar shift=-.3cm, area legend] table [x expr=\coordindex, y=RMSE, col sep=comma] {\contentBasedDataTable};
+\addplot [ybar, fill=blue, bar shift=.3cm, area legend] table [x expr=\coordindex, y=RMSE, col sep=comma] {\latentFactorsDataTable};
+\addlegendentry{Content Based}
+\addlegendentry{Latent Factors}
+\end{axis}
+\end{tikzpicture}
+\caption{\bfseries Latent Factors vs Content Based on Root Mean Squeare Error}\label{RMSE_Comparison}
+\end{figure}
+
+
+\begin{figure}[ht]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
