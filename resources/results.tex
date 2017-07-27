@@ -6,36 +6,80 @@ Gathering the results of the above experiment, we can see roughly a very big dif
 %consider run the process for the 1M dataset
 %Add dataset statistics and refernce the papers using it
 
-\begin{table}[!h]
-		\caption {\bfseries Content Based Algorithm Results}
+\begin{table}[ht]
+		\caption {\bfseries Content Based Algorithm Results vs Mean Absolute Error}
 		\centering
-\begin{tabular}{p{3cm}|p{3cm}|p{3cm}|r}%
-   	\bfseries Training Dataset \newline Testing Dataset & \bfseries Mean Absolute Error & \bfseries Root Mean Square Error & \bfseries  Execution Time (ms)% specify table head
+\begin{tabular}{c|r}%
+   	\bfseries Training Dataset \ | Testing Dataset & \bfseries Mean Absolute Error
    	\csvreader[head to column names]{data/contentBased.csv}{}% use head of csv as column names
-   	{\\\hline \trainingSet \ | \testingSet & \MAE & \RMSE & \ExecutionTime}% specify your columns here
+   	{\\\hline \trainingSet \ | \testingSet & \MAE}% specify your columns here
 \end{tabular}
-  \label{tab:Content Based Algorithm Results}
+  \label{tab:Content Based Algorithm Results vs MAE}
 \end{table}
 
+\begin{table}[ht]
+		\caption {\bfseries Content Based Algorithm Results vs Root Mean Square Error}
+		\centering
+\begin{tabular}{c|r}%
+   	\bfseries Training Dataset \ | Testing Dataset & \bfseries Root Mean Square Error
+   	\csvreader[head to column names]{data/contentBased.csv}{}% use head of csv as column names
+   	{\\\hline \trainingSet \ | \testingSet & \RMSE}% specify your columns here
+\end{tabular}
+  \label{tab:Content Based Algorithm Results vs RMSE}
+\end{table}
+
+\begin{table}[ht]
+		\caption {\bfseries Content Based Algorithm Results vs Execution Time}
+		\centering
+\begin{tabular}{c|r}%
+   	\bfseries Training Dataset \ | Testing Dataset & \bfseries  Execution Time (ms)% specify table head
+   	\csvreader[head to column names]{data/contentBased.csv}{}% use head of csv as column names
+   	{\\\hline \trainingSet \ | \testingSet & \ExecutionTime}% specify your columns here
+\end{tabular}
+  \label{tab:Content Based Algorithm Results vs Execution Time}
+\end{table}
+
+
 \paragraph{NOTE:} RMSE gives greater error with peaks, meaning that MAE/RMSE 
-\paragraph{TODO:} Break tables to more
-
-
 
 \paragraph{TODO:} Add rmse and mae difference diagrams
 \paragraph{TODO:} Add rmse/mae diagrams
 
 
-\begin{table}[!h]
-		\caption{\bfseries Latent Factors Algorithm Results}
+\begin{table}[ht]
+		\caption{\bfseries Latent Factors Algorithm Results vs Mean Absolute Error}
 		\centering
-\begin{tabular}{p{3cm}|p{3cm}|p{3cm}|r}%
-	\bfseries Training Dataset \newline Testing Dataset & \bfseries Mean Absolute Error & \bfseries Root Mean Square Error & \bfseries  Execution time (ms)% specify table head
+\begin{tabular}{c|r}%
+	\bfseries Training Dataset \ | Testing Dataset & \bfseries Mean Absolute Error
 	\csvreader[head to column names]{data/latentFactors.csv}{}% use head of csv as column names
-	{\\\hline \trainingSet \ | \testingSet & \MAE & \RMSE & \ExecutionTime}% specify your columns here
+	{\\\hline \trainingSet \ | \testingSet & \MAE}% specify your columns here
 \end{tabular}
-  \label{tab:Latent Factors Algorithm Results}
+  \label{tab:Latent Factors Algorithm Results vs MAE}
 \end{table}
+
+\begin{table}[ht]
+		\caption{\bfseries Latent Factors Algorithm Results vs Root Mean Square Error}
+		\centering
+\begin{tabular}{c|r}%
+	\bfseries Training Dataset \ | Testing Dataset & \bfseries Root Mean Square Error
+	\csvreader[head to column names]{data/latentFactors.csv}{}% use head of csv as column names
+	{\\\hline \trainingSet \ | \testingSet & \RMSE}% specify your columns here
+\end{tabular}
+  \label{tab:Latent Factors Algorithm Results vs RMSE}
+\end{table}
+
+\begin{table}[ht]
+		\caption{\bfseries Latent Factors Algorithm Results vs Execution Time}
+		\centering
+\begin{tabular}{c|r}%
+	\bfseries Training Dataset \ | Testing Dataset & \bfseries  Execution time (ms)% specify table head
+	\csvreader[head to column names]{data/latentFactors.csv}{}% use head of csv as column names
+	{\\\hline \trainingSet \ | \testingSet & \ExecutionTime}% specify your columns here
+\end{tabular}
+  \label{tab:Latent Factors Algorithm Results vs Execution Time}
+\end{table}
+
+
 \pgfplotstableread[col sep=comma]{data/contentBased.csv}\contentBasedDataTable
 \pgfplotstableread[col sep=comma]{data/latentFactors.csv}\latentFactorsDataTable
 \begin{figure}[!h]
