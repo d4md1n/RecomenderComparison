@@ -125,6 +125,27 @@ ymax = 2.3
 
 
 \begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	xlabel= Dataset,
+	ylabel=Mean Absolute Error,
+	width=1\linewidth, 
+	xtick=data,
+	xticklabels from table={\latentFactorsDataTable}{trainingSet},
+	ymax = 1
+	]
+	\addplot [ybar, fill=red, bar shift=-.3cm, area legend] table [x expr=\coordindex, y=MAEoverRMSE, col sep=comma] {\contentBasedDataTable};
+	\addplot [ybar, fill=blue, bar shift=.3cm, area legend] table [x expr=\coordindex, y=MAEoverRMSE, col sep=comma] {\latentFactorsDataTable};
+	\addlegendentry{Content Based}
+	\addlegendentry{Latent Factors}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{\bfseries Latent Factors vs Content Based on Root Mean Squeare Error}\label{MAEoverRMSE_Comparison}
+\end{figure}
+
+
+\begin{figure}[ht]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
