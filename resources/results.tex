@@ -107,7 +107,7 @@ The results above can be shown clearly on the graph following, depicting the per
 \begin{tikzpicture}
 \begin{axis}[
 xlabel= Dataset,
-ylabel=Mean Absolute Error,
+ylabel=Root Mean Square Error,
 width=1\linewidth, 
 xtick=data,
 xticklabels from table={\latentFactorsDataTable}{trainingSet},
@@ -121,6 +121,60 @@ ymax = 2.3
 \end{tikzpicture}
 \caption{\bfseries Latent Factors vs Content Based on Root Mean Squeare Error}\label{RMSE_Comparison}
 \end{figure}
+
+\paragraph{} Even if RMSE is considered a better metric when large errors are undesired, it is useful to check those systems on the $\frac{MAE}{RMSE}$ metric too. It is easily proven that $MAE \leq RMSE$. Those two are equal when the magnitude of all errors is the same. Examining this ratio we can see if the errors magnitude have close values.
+\clearpage
+
+
+\begin{table}[ht]
+		\caption {\bfseries Content Based Algorithm Results vs MAE over RMSE}
+		\centering
+\begin{tabular}{c|r}%
+   	\bfseries Training Dataset \ | Testing Dataset 
+   	& \bfseries  MAE\  \textbackslash \ RMSE
+   	\csvreader[head to column names]{data/contentBased.csv}{}% use head of csv as column names
+   	{\\\hline \trainingSet \ | \testingSet & \MAEoverRMSE}% specify your columns here
+\end{tabular}
+  \label{tab:Content Based Algorithm Results vs MAE over RMSE}
+\end{table}
+
+\begin{table}[ht]
+		\caption{\bfseries Latent Factors Algorithm Results vs MAE over RMSE}
+		\centering
+\begin{tabular}{c|r}%
+	\bfseries Training Dataset \ | Testing Dataset 
+   	& \bfseries  MAE\  \textbackslash \ RMSE
+	\csvreader[head to column names]{data/latentFactors.csv}{}% use head of csv as column names
+	{\\\hline \trainingSet \ | \testingSet & \MAEoverRMSE}% specify your columns here
+\end{tabular}
+  \label{tab:Latent Factors Algorithm Results vs MAE over RMSE}
+\end{table}
+
+\paragraph{}As it was expected and this area of examination, latent factors system has ten percent (10\%) less error spikes than the content based on every dataset. The graph below depicts the results.
+\clearpage
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	xlabel= Dataset,
+	ylabel= MAE \ \textbackslash \ RMSE,
+	width=1\linewidth, 
+	xtick=data,
+	xticklabels from table={\latentFactorsDataTable}{trainingSet},
+	ymax = 1
+	]
+	\addplot [ybar, fill=red, bar shift=-.3cm, area legend] table [x expr=\coordindex, y=MAEoverRMSE, col sep=comma] {\contentBasedDataTable};
+	\addplot [ybar, fill=blue, bar shift=.3cm, area legend] table [x expr=\coordindex, y=MAEoverRMSE, col sep=comma] {\latentFactorsDataTable};
+	\addlegendentry{Content Based}
+	\addlegendentry{Latent Factors}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{\bfseries Latent Factors vs Content Based on MAE over RMSE}\label{MAEoverRMSE_Comparison}
+\end{figure}
+
+\paragraph{} The last metric we took in order to compare those two systems was the execution time. On execution time metric we included the time need to train the system against a dataset and the time needed to calculate the metrics. We extracted the methods used on metrics calculation in order to be commonly used and impact the each execution time result on the same level. The results can be found in the tables below and on the graph that visualize them, also below.
+
 
 \begin{table}[ht]
 		\caption {\bfseries Content Based Algorithm Results vs Execution Time}
@@ -144,29 +198,7 @@ ymax = 2.3
   \label{tab:Latent Factors Algorithm Results vs Execution Time}
 \end{table}
 
-
-
-
-
-\begin{figure}[ht]
-	\centering
-	\begin{tikzpicture}
-	\begin{axis}[
-	xlabel= Dataset,
-	ylabel=Mean Absolute Error,
-	width=1\linewidth, 
-	xtick=data,
-	xticklabels from table={\latentFactorsDataTable}{trainingSet},
-	ymax = 1
-	]
-	\addplot [ybar, fill=red, bar shift=-.3cm, area legend] table [x expr=\coordindex, y=MAEoverRMSE, col sep=comma] {\contentBasedDataTable};
-	\addplot [ybar, fill=blue, bar shift=.3cm, area legend] table [x expr=\coordindex, y=MAEoverRMSE, col sep=comma] {\latentFactorsDataTable};
-	\addlegendentry{Content Based}
-	\addlegendentry{Latent Factors}
-	\end{axis}
-	\end{tikzpicture}
-	\caption{\bfseries Latent Factors vs Content Based on MAE over RMSE}\label{MAEoverRMSE_Comparison}
-\end{figure}
+\clearpage
 
 
 \begin{figure}[ht]
@@ -187,3 +219,5 @@ legend entries={entry1,entry2}]
 \end{tikzpicture}
 \caption{\bfseries Latent Factors vs Content Based on Execution Time}\label{ET_Comparison}
 \end{figure}
+
+\paragraph{}Comparing those systems in the execution time metric we can also see that latent factors system outperformed the content base again by taking one third of the time on its worst case.
