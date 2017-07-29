@@ -1,5 +1,5 @@
 \newpage
-\section{Our Experiment}
+\section{Experiment}
 \subsection{Infrastructure}
 \paragraph{}As the experiment's infrastructure we will describe the frameworks used during the implementation. The framework that has been used to implement the item-based algorithm was Apache Spark. The ALS algorithm was used from the Apache Spark's MLLib library. The framework is common to infrastructure because Apache Spark can orchestrate the work on multiple machine as well as in one. So the framework is as close as we can get to the infrastructure.
 
@@ -86,6 +86,7 @@ This dataset is splited to multiple subsets of 80000 training sets and respectiv
 This dataset has been used by the related work on .....
 \cite{MovieLens:3}
 \paragraph{TODO:} Add more
+%Add dataset statistics and refernce the papers using it
 
 \subsection{Implementation and assumptions}
 \paragraph{}During the implementation I had to make some assumptions and choices. The first of choices was the framework and the programming language that the implementation would take place. The framework that has been chosen, as you may had already figured out, is apache spark due to its trend and the high scalability it offers. The language of choice was scala, due to its functional nature.
@@ -93,9 +94,7 @@ This dataset has been used by the related work on .....
 \paragraph{}After the implementation I had to make the choice of the metrics I was going to use.
 \subsubsection{Mean Absolute Error}
 \paragraph{}As metrics are commonly used the MSE, RMSE and MAE. Due to the fact that the author prefers the last one, MAE was used in this experiment.
-\begin{equation}
-MAE = \frac{\sum_{i=1}^{n}{|y_{i}-x_{i}|} }{n} = \frac{\sum_{i=1}^{n}\sqrt{{(y_{i}-x_{i})}^{2}}}{n}
-\end{equation}
+
 \subsubsection{Execution Time}
 \paragraph{}Time is measured in milliseconds.
 Execution time is always a measure when we are comparing algorithms. 

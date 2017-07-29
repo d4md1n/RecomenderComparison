@@ -1,12 +1,30 @@
 \newpage
 \section{Results}
-Gathering the results of the above experiment, we can see roughly a very big difference between the two algorithms on both metrics, MAE and Execution Time.
-
-
 %consider run the process for the 1M dataset
-%Add dataset statistics and refernce the papers using it
+% % % Results first atempt
+%Gathering the results of the above experiment, we can see roughly a very big difference between the two algorithms on both metrics, MAE and %Execution Time.
+% % % % % %
 
-\begin{table}[ht]
+\paragraph{}In this chapter we will examine the results taken from the experiment described in the previous chapter. 
+In order to measure the performance of each recommender system we used three different metrics. Those metrics are the Mean Absolute Error (MAE), the Root Mean Square Error (RMSE), and the execution time of each system.
+
+\paragraph{} The Mean Absolute Error is defined as the sum of each error's absolute value divided by the number of them. Let's take a look
+at error's definition. It is common in statistics to symbolize the error with $e_i$. The $i$ index shows which measurement's error is. An error can be calculated using the following formula $e_i = \widehat{y_i} - y_i$, referring to $\widehat{y_{i}}$ as the estimated value for the i-th item whereas to $y_i$ as the actual value of the i-th item. For example if we estimated that the $\widehat{y_i} = 5$ and its actual value is $y_i = 5.2$ and its error could be the following.
+\begin{equation}
+e_i = \widehat{y_i} - y_i => e_i = 5 - 5.2  => e_i = -0.2
+\end{equation}
+
+\paragraph{}Mean absolute error is easier to interpret than other statistical metrics like RMSE. We will examine RMSE later in this chapter. If we want to express mathematically the MAE we could write the following.
+
+\begin{equation}
+MAE = \frac{\sum_{i=1}^{n}{|e_i|}}{n} =
+\frac{\sum_{i=1}^{n}{|\widehat{y_{i}}-y_{i}|} }{n} =
+\frac{\sum_{i=1}^{n}\sqrt{{(\widehat{y_{i}}-y_{i})}^{2}}}{n}
+\end{equation}
+
+\paragraph{}During the experiment we took the MAE metric for each system. The two following tables can show the results in detail.
+\clearpage
+\begin{table}[htb]
 		\caption {\bfseries Content Based Algorithm Results vs Mean Absolute Error}
 		\centering
 \begin{tabular}{c|r}%
@@ -16,38 +34,7 @@ Gathering the results of the above experiment, we can see roughly a very big dif
 \end{tabular}
   \label{tab:Content Based Algorithm Results vs MAE}
 \end{table}
-
-\begin{table}[ht]
-		\caption {\bfseries Content Based Algorithm Results vs Root Mean Square Error}
-		\centering
-\begin{tabular}{c|r}%
-   	\bfseries Training Dataset \ | Testing Dataset & \bfseries Root Mean Square Error
-   	\csvreader[head to column names]{data/contentBased.csv}{}% use head of csv as column names
-   	{\\\hline \trainingSet \ | \testingSet & \RMSE}% specify your columns here
-\end{tabular}
-  \label{tab:Content Based Algorithm Results vs RMSE}
-\end{table}
-
-\begin{table}[ht]
-		\caption {\bfseries Content Based Algorithm Results vs Execution Time}
-		\centering
-\begin{tabular}{c|r}%
-   	\bfseries Training Dataset \ | Testing Dataset & \bfseries  Execution Time (ms)% specify table head
-   	\csvreader[head to column names]{data/contentBased.csv}{}% use head of csv as column names
-   	{\\\hline \trainingSet \ | \testingSet & \ExecutionTime}% specify your columns here
-\end{tabular}
-  \label{tab:Content Based Algorithm Results vs Execution Time}
-\end{table}
-
-
-\paragraph{NOTE:} RMSE gives greater error with peaks, meaning that MAE/RMSE 
-
-
-\paragraph{TODO:} Add rmse and mae difference diagrams
-\paragraph{TODO:} Add rmse/mae diagrams
-
-
-\begin{table}[ht]
+\begin{table}[htb]
 		\caption{\bfseries Latent Factors Algorithm Results vs Mean Absolute Error}
 		\centering
 \begin{tabular}{c|r}%
@@ -57,30 +44,8 @@ Gathering the results of the above experiment, we can see roughly a very big dif
 \end{tabular}
   \label{tab:Latent Factors Algorithm Results vs MAE}
 \end{table}
-
-\begin{table}[ht]
-		\caption{\bfseries Latent Factors Algorithm Results vs Root Mean Square Error}
-		\centering
-\begin{tabular}{c|r}%
-	\bfseries Training Dataset \ | Testing Dataset & \bfseries Root Mean Square Error
-	\csvreader[head to column names]{data/latentFactors.csv}{}% use head of csv as column names
-	{\\\hline \trainingSet \ | \testingSet & \RMSE}% specify your columns here
-\end{tabular}
-  \label{tab:Latent Factors Algorithm Results vs RMSE}
-\end{table}
-
-\begin{table}[ht]
-		\caption{\bfseries Latent Factors Algorithm Results vs Execution Time}
-		\centering
-\begin{tabular}{c|r}%
-	\bfseries Training Dataset \ | Testing Dataset & \bfseries  Execution time (ms)% specify table head
-	\csvreader[head to column names]{data/latentFactors.csv}{}% use head of csv as column names
-	{\\\hline \trainingSet \ | \testingSet & \ExecutionTime}% specify your columns here
-\end{tabular}
-  \label{tab:Latent Factors Algorithm Results vs Execution Time}
-\end{table}
-
-
+\paragraph{}As we can see, comparing the two systems on this metric we realize that the latent factors system outperformed the content based one. That is clearly depicted on the graph below.
+\clearpage
 \pgfplotstableread[col sep=comma]{data/contentBased.csv}\contentBasedDataTable
 \pgfplotstableread[col sep=comma]{data/latentFactors.csv}\latentFactorsDataTable
 \begin{figure}[ht]
@@ -103,6 +68,40 @@ ymax = 1.8
 \caption{\bfseries Latent Factors vs Content Based on Mean Absolute Error}\label{MAE_Comparison}
 \end{figure}
 
+\paragraph{} In bibliography the most common statistical metric for recommender systems is the root mean square error(RMSE). This metric is considered to give a greater estimation on error magnitude due to the fact that it uses the squared value of each error. In order to better understand this metric we can have a look at its mathematical type below.
+
+\begin{equation}
+RMSE = \sqrt{\frac{\sum_{i=1}^{n}{e_i^2}}{n}} =
+\sqrt{\frac{\sum_{i=1}^{n}{(\widehat{y_{i}}-y_{i})^2} }{n}}
+\end{equation}
+
+\paragraph{}Each error is measured as before but now due to the structure of that metric the larger the error it is, the greatest the impact it has on RMSE.
+
+\paragraph{}The results we got during the experiment on that metric was that latent factors system outperformed the content base again. You can see the details of the result on the two following tables.
+\clearpage
+\begin{table}[ht]
+		\caption {\bfseries Content Based Algorithm Results vs Root Mean Square Error}
+		\centering
+\begin{tabular}{c|r}%
+   	\bfseries Training Dataset \ | Testing Dataset & \bfseries Root Mean Square Error
+   	\csvreader[head to column names]{data/contentBased.csv}{}% use head of csv as column names
+   	{\\\hline \trainingSet \ | \testingSet & \RMSE}% specify your columns here
+\end{tabular}
+  \label{tab:Content Based Algorithm Results vs RMSE}
+\end{table}
+
+\begin{table}[ht]
+		\caption{\bfseries Latent Factors Algorithm Results vs Root Mean Square Error}
+		\centering
+\begin{tabular}{c|r}%
+	\bfseries Training Dataset \ | Testing Dataset & \bfseries Root Mean Square Error
+	\csvreader[head to column names]{data/latentFactors.csv}{}% use head of csv as column names
+	{\\\hline \trainingSet \ | \testingSet & \RMSE}% specify your columns here
+\end{tabular}
+  \label{tab:Latent Factors Algorithm Results vs RMSE}
+\end{table}
+The results above can be shown clearly on the graph following, depicting the performance of latent factors and content based systems, on each dataset, on RMSE metric.
+\clearpage
 \begin{figure}[ht]
 \centering
 \begin{tikzpicture}
@@ -123,6 +122,31 @@ ymax = 2.3
 \caption{\bfseries Latent Factors vs Content Based on Root Mean Squeare Error}\label{RMSE_Comparison}
 \end{figure}
 
+\begin{table}[ht]
+		\caption {\bfseries Content Based Algorithm Results vs Execution Time}
+		\centering
+\begin{tabular}{c|r}%
+   	\bfseries Training Dataset \ | Testing Dataset & \bfseries  Execution Time (ms)% specify table head
+   	\csvreader[head to column names]{data/contentBased.csv}{}% use head of csv as column names
+   	{\\\hline \trainingSet \ | \testingSet & \ExecutionTime}% specify your columns here
+\end{tabular}
+  \label{tab:Content Based Algorithm Results vs Execution Time}
+\end{table}
+
+\begin{table}[ht]
+		\caption{\bfseries Latent Factors Algorithm Results vs Execution Time}
+		\centering
+\begin{tabular}{c|r}%
+	\bfseries Training Dataset \ | Testing Dataset & \bfseries  Execution time (ms)% specify table head
+	\csvreader[head to column names]{data/latentFactors.csv}{}% use head of csv as column names
+	{\\\hline \trainingSet \ | \testingSet & \ExecutionTime}% specify your columns here
+\end{tabular}
+  \label{tab:Latent Factors Algorithm Results vs Execution Time}
+\end{table}
+
+
+
+
 
 \begin{figure}[ht]
 	\centering
@@ -141,7 +165,7 @@ ymax = 2.3
 	\addlegendentry{Latent Factors}
 	\end{axis}
 	\end{tikzpicture}
-	\caption{\bfseries Latent Factors vs Content Based on Root Mean Squeare Error}\label{MAEoverRMSE_Comparison}
+	\caption{\bfseries Latent Factors vs Content Based on MAE over RMSE}\label{MAEoverRMSE_Comparison}
 \end{figure}
 
 
