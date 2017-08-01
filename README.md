@@ -1,6 +1,5 @@
 # RecomenderComparison
 
-This repository was made to support the implementation of my diploma thesis
-The status of this thesis you can review it in the link below
+This repository was made to support the implementation of my diploma thesis.
 
-https://docs.google.com/document/d/1f1OwwZ7TVYBsBo-7Jrx5B8Nhlzr3JRcQ2rODQsmG03w/edit?usp=sharing
+The status of this thesis you can review it in thesis.pdf in resources directory.
