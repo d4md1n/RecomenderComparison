@@ -1,28 +1,34 @@
 \newpage
 \section{Collaborative filtering}
-Collaborative filtering is the process of filtering items based on others items with similar attributes.
-\\\\needs more explanation\\\\
-What is collaborative filtering.
-\cite{RecommenderSystems:2}
+\paragraph{}The need of having recommender systems lies between the need of obtaining recommendations from trustworthy sources and the availability of a large amount of user data.
+\paragraph{}Like on any demand and supply system, on the one hand lies the demand of accurate and trustworthy recommendations. On the other hand are the tons of user data that can serve this demand.
+\paragraph{}Over the years have been developed techniques that can utilize those data, in order to provide good recommendations. Those techniques are highly dependent on the volume of data they use. 
+
+\paragraph{}The more the data the more accurate the recommendation. But its system's training phase is largely impacted by the volume mentioned before. Thus, any algorithm or system is will provide good recommendations as long as it is trained with the right dataset.
+
+\paragraph{} Those algorithms were initially based only on statistical models that were available at the time. Whereas the data were growing rapidly, and the sample started to approach the population.
 \subsection{Content based}
 
-\paragraph{}In content based recommender systems we try to make recommendations based on features we know. There are two types of content based recommender systems. 
+\paragraph{}The most common and easy to interpret way of recommendation is collaborative filtering. In this area of algorithms you are trying to utilize data from other users in order to come to a recommendation. Those data might be attributes that characterizes the item of interest. 
+\paragraph{}In case of users those attributes may be their age or occupation, whereas for a product might be its color, prize or weight in kilograms. In order to put this to a mathematical expression we could write the following.
 
-\paragraph{}On the one hand we have the user based recommendation. This recommendation is done by trying to match users profiles, in order to find which item the user i might like. But in real world we don't have the needed information to make the recommendation to the user. 
-
-\paragraph{}On the other hand we have the item-product based recommendation, in this case we are trying to find user that might like the given product. This is match easier due to the fact that you know more about a product than a user, and you can classify them easily.
-
-\paragraph{}In this case we have a matrix R that contains the rates given by users to items. This matrix most of the times will be low in density, this is because each user does not rate each product. The second matrix we come across is the M. This matrix contains all the movies with the their genres. Each characteristic is binary. For example, the movie with id i is both action and comedy and none of the other genres.
 \begin{equation}
- w=R^{-1}M^{T}
+w=R^{-1}M^{T}
 \end{equation}
-In order add an normalization factor to the above equation, we need to get it to the form below.
+
+\paragraph{}Raw data though are not always clear of normalized. Due to this fact we would consider to normalize the approach we used above. If we were about to add a normalization factor to that expression we will end up with the one below.
+
 \begin{equation}
- w=(\lambda I + R^{T}R)^{-1} R^{T}M 
+w=(\lambda I + R^{T}R)^{-1} R^{T}M 
 \end{equation}
+
+\paragraph{}Those kind of algorithms are easier to interpret. They also can handle well a cold-start problem. But they are computational heavy, meaning that the scaling of them is limits.
 
 \subsection{Latent Factors}
-\paragraph{}Latent factors techniques are used to find attributes that are no clear in the dataset. This means this set of algorithms is trying to find the best metric, which may not be a clear one.
+
+\paragraph{}Another approach to recommender algorithms is the latent factors group. This group of algorithms does not take into consideration the meta-data we have on a any user or item. 
+\paragraph{}In that area we are trying to determine relationships between a user and an item based only on the rating. Those relationships may not be the age or the color.
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\textwidth]{images/LatentFactors.png}
@@ -30,23 +36,10 @@ In order add an normalization factor to the above equation, we need to get it to
 	\label{LatentFactors}
 \end{figure}
 
-\paragraph{} In latent factors recommender systems we follow a similar approach but, in case of ALS(Alternating least squares), we are trying to find metrics that may lead us to the correct recommendation. Those metrics are not distinct, and may change in a number of iterations. Those metrics are inducted from the R matrix as we define it above. This makes this approach more tolerant to missing values, or wrong quality measures. Thus this metric as will be presented bellow is more efficient on prediction and time.
-\cite{DistributedAlgorithmsAndOptimization:4}
 
-
-\begin{equation}
-	\min_{X,Y} \sum_{r_{ui}observed}(r_{ui}-x_{u}^{T}y_{i})^{2}
-\end{equation}
-
-\begin{equation}
-	\min_{X,Y} \sum_{r_{ui}observed}(r_{ui}-x_{u}^{T}y_{i})^{2} + \lambda(\sum_{u}||x_{u}||^2 + \sum_{i}||y_{i}||^2)
-\end{equation}
-
-
-
-\paragraph{} ALS explanation.
-ALS algorithm is based on the latent factors theory.As mentioned before, this means that it is not going to use the attributes given by the dataset for the movies or the users. The algorithm is going to train it self based on the rating set only.
-
+\paragraph{} Alternating least squares (ALS) algorithm belongs to the group above. In this case we assign initially random values of rating between user and items. Then it takes the error between the actual value and the one assigned to it. 
+\pagebreak
+\paragraph{}Then the algorithm runs again using as input the errors and tries to minimize them. Below we can see a how this algorithm is defined.
 
 \begin{algorithm}
 	\caption{ALS for Matrix Completion}\label{ALS}
@@ -62,3 +55,17 @@ ALS algorithm is based on the latent factors theory.As mentioned before, this me
 		\Until {convergence}
 	\end{algorithmic}
 \end{algorithm}
+
+\paragraph{}As we can see above, this algorithm has a $\lambda$ parameter used for normalization during the process. We can see the deference below were we have both the expression with and without normalization factor.
+
+\paragraph{} ALS is a very efficient recommender algorithm. Due to its nature it can be easily parallelized reducing the execution time needed \cite{DistributedAlgorithmsAndOptimization:4}. It also requires no meta-data about any user or item. Although, ALS suffers from the cold start problem.
+
+\begin{equation}
+	\min_{X,Y} \sum_{r_{ui}observed}(r_{ui}-x_{u}^{T}y_{i})^{2}
+\end{equation}
+
+\begin{equation}
+	\min_{X,Y} \sum_{r_{ui}observed}(r_{ui}-x_{u}^{T}y_{i})^{2} + \lambda(\sum_{u}||x_{u}||^2 + \sum_{i}||y_{i}||^2)
+\end{equation}
+
+\paragraph{} Moving forward this thesis, we are going to discuss how those two algorithms were implemented and validate the results they gave.
