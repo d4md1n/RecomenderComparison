@@ -1,12 +1,18 @@
 \section{Intro}
-\paragraph{} This is the intro suction for this master thesis.
-Why we need recommendation systems? Retailers can propose the right product to the right target group.
-User get advertisements the may be interested in.\cite{RecommenderSystems:2}
+\paragraph{} The last decade Internet has been flooded with information. Information that no one can filter to find what he needs, raw data, videos, music or products. Large retail sites like amazon, developed recommenders systems in order to offer products to their users. The need although is not limited only in the retail area. Web sites like youtube or vimeo needs to recommend to each user of their, videos that may like to watch next. Facebook is another example of an application utilizing lots of data and offering recommendations on what you may want to read or who may be a friend of yours. Most of the times, a recommender system is not the core business functionality of an application. It is though a very useful feature that gives a clear advantage on any business area needed.
 
+\paragraph{}The way a recommender system has been built is very dependent on the business case which will be served. Even a specific case of recommendation, similar to one already existing, might need a different recommender system.
+
+\paragraph{} So far recommender systems has been very interesting area of study. Netflix in 2009 declared a challenge, which can be found here \footnote{http://www.netflixprize.com/}. Its  reward was one million dollars for the task of improving the accuracy of predictions. The prize was granted to BellKor’s Pragmatic Chaos team for their algorithm. You can come across this challenge on lots of papers published every year.
+
+\paragraph{} With such a wide study of recommender systems, it is reasonable to start wondering "How are we going to compare recommender systems?". As we will discuss bellow, there are several papers suggesting ways of comparison. The majority of those papers are using the dataset given in the challenge above.
+
+\paragraph{} In this thesis the first system to compare is a content-based recommendation system that provide predictions based on movies genre attributes. The second system is the based on the Alternating Least Squares (ALS) implementation of Apache Spark's MLlib.
+
+\paragraph{} The comparison metrics used are the Mean Absolute Error (MAE), the Root Mean Squared Error and the ration between them (MAE/RMSE). Last but not least is the execution of time metric, measuring the training and estimation time.
 
 \section{Related Work}
-\paragraph{} Below it is listed the related work to this thesis.
-\paragraph{TODO:} Update the above.
+\paragraph{} Below is listed lots of different approaches made in order to compare recommender systems.
 
 \subsection{RecBench: Benchmarks for Evaluating Performance of Recommender System Architectures \cite{levandoski2011recbench}}
 \paragraph{}University of Minnesota, published in 2011 a paper stating a comparison between a recommender framework and a DBMS-based recommender. In that paper they used the Movie Lens dataset 100k, from the Netflix Challenge. The benchmark had five areas of comparison. Those areas were initialization, pure recommendation, filtered recommendation, blended recommendation, item recommendation and item update.
