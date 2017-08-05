@@ -78,24 +78,18 @@ then the worker was done, he was putting the result back to the HDFS.
    \label{apacheSparkStack}
 \end{figure}
 
-\paragraph{} To conclude, Spark has dominated the big data field the last years, Amazon and other cloud providers gives you the option to deploy an Apache Spark cluster on their infrastructure. Also large companies like Google and Intel are actively contributing to projects like Apache Spark On Kubernetes which can be found at the following Github repository (https://github.com/apache-spark-on-k8s/spark)
+\paragraph{} To conclude, Spark has dominated the big data field the last years, Amazon and other cloud providers gives you the option to deploy an Apache Spark cluster on their infrastructure. Also large companies like Google and Intel are actively contributing to projects like Apache Spark On Kubernetes which can be found at its Github repository \footnote{https://github.com/apache-spark-on-k8s/spark}
 
 \subsection{Dataset}
-\paragraph{}What is the dataset about. This dataset contains users, movies and the rating user made about the movies.
-This dataset is splited to multiple subsets of 80000 training sets and respective 20000 reviews.
-This dataset has been used by the related work on .....
-\cite{MovieLens:3}
-\paragraph{TODO:} Add more, reference netflix challenge and how this challenge changed the area.
-%Add dataset statistics and refernce the papers using it
+\paragraph{}Selecting a clear and reliable dataset is very important for every experiment in the field. Due to that need several papers, like \cite{levandoski2011recbench}, are using the Movie lens dataset. This dataset contains users, movies and ratings. Each user may rated more than movie and each movie can be rated by more than one user. The dataset split to multiple subsets of 80000 training sets and respective 20000 testSet. It also provides scripts that can be used to create more sets. 
+\paragraph{} In order to better visualize the above dataset, we created an entity relationship(ER) diagram below.
+\begin{figure}[ht]
+  \centering
+    \includegraphics[width=0.5\textwidth]{images/MovieLensDataset.png}
+    \caption{\bfseries MovieLens ER diagram \cite{MovieLens:3}}
+   \label{movieLensER}
+\end{figure}
+
 
 \subsection{Implementation and assumptions}
 \paragraph{}During the implementation I had to make some assumptions and choices. The first of choices was the framework and the programming language that the implementation would take place. The framework that has been chosen, as you may had already figured out, is apache spark due to its trend and the high scalability it offers. The language of choice was scala, due to its functional nature.
-\subsection{Metrics}
-\paragraph{}After the implementation I had to make the choice of the metrics I was going to use.
-\subsubsection{Mean Absolute Error}
-\paragraph{}As metrics are commonly used the MSE, RMSE and MAE. Due to the fact that the author prefers the last one, MAE was used in this experiment.
-
-\subsubsection{Execution Time}
-\paragraph{}Time is measured in milliseconds.
-Execution time is always a measure when we are comparing algorithms. 
-Even more if those algorithms execution time is heavily dependent to their complexity and not their resources.
