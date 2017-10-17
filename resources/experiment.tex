@@ -1,6 +1,6 @@
 \newpage
-\section{Experiment}
-\subsection{Infrastructure}
+\chapter{Experiment}
+\section{Infrastructure}
 \paragraph{}As the experiment's infrastructure, we will describe the frameworks used during the implementation. The framework that has been used to implement the item-based algorithm was Apache Spark. The ALS algorithm was used from the Apache Spark's MLLib library. The framework is common to infrastructure because Apache Spark can orchestrate the work on multiple machines as well as in one. So the framework is as close as we can get to the infrastructure.
 
 \subsubsection{Apache Spark}
@@ -79,7 +79,7 @@ then the worker was done, he was putting the result back to the HDFS.
 
 \paragraph{} To conclude, Spark has dominated the big data field the last years, Amazon and other cloud providers give you the option to deploy an Apache Spark cluster on their infrastructure. Also, large companies like Google and Intel are actively contributing to projects like Apache Spark On Kubernetes which can be found at its Github repository \footnote{https://github.com/apache-spark-on-k8s/spark}
 
-\subsection{Dataset}
+\section{Dataset}
 \paragraph{}Selecting a clear and reliable data set is very important for every experiment in the field. Due to that need several papers, like \cite{levandoski2011recbench}, are using the Movie lens data set. This dataset contains users, movies, and ratings. Each user may rate more than a movie and each movie can be rated by more than one user. The data set split to multiple subsets of 80000 training sets and respective 20000 test set. It also provides scripts that can be used to create more sets.
 
 \paragraph{} In order to better visualize the above dataset, we created an entity relationship(ER) diagram below.
@@ -91,5 +91,5 @@ then the worker was done, he was putting the result back to the HDFS.
 \end{figure}
 
 
-\subsection{Implementation and assumptions}
+\section{Implementation and assumptions}
 \paragraph{}During the implementation, I had to make some assumptions and choices. The first of choices was the framework and the programming language that the implementation would take place. The framework that has been chosen, as you may have already figured out, is apache spark due to its trend and the high scalability it offers. The language of choice was scala, due to its functional nature.

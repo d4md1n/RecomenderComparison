@@ -1,4 +1,4 @@
-\section{Intro}
+\chapter{Introduction}
 
 \paragraph{} In late 40s, a man called Alan Turing was investigating the case of programmable computing machine. Of cource there were similar tries before. Babadge, for example, was famous of creating a computation machine. What made Turing's machine different? This machine was the first programmable one. I don't know how easily programmable you would call a machine in binary code, but at its time was the one. Turing prophetically enough said that we might need a large amount of mathematicians of ability in order to program those machines.
 
@@ -24,22 +24,22 @@
 
 \paragraph{} The comparison metrics used are the Mean Absolute Error (MAE), the Root Mean Squared Error and the ratio between them (MAE/RMSE). Last but not least is the execution of time metric, measuring the training and estimation time.
 
-\section{Related Work}
+\chapter{Related Work}
 \paragraph{} In this thesis's section, we will list numerous different approaches made in order to compare recommender systems.
 
-\subsection{RecBench: Benchmarks for Evaluating Performance of Recommender System Architectures \cite{levandoski2011recbench}}
+\section{RecBench: Benchmarks for Evaluating Performance of Recommender System Architectures \cite{levandoski2011recbench}}
 \paragraph{} The University of Minnesota, published in 2011 a paper stating a comparison between a recommender framework and a DBMS-based one. In that paper, they used the Movie Lens dataset 100k, from the Netflix Challenge. The benchmark had five areas of comparison. Those areas were initialization, pure recommendation, filtered recommendation, blended recommendation, item recommendation and item update.
 
 \paragraph{}The initialization task was about the preparation needed for the system to go live. The next area was the pure recommendation. By pure recommendation, the author means the home page recommendation, meaning the items that are going to be on the home page. Moving forward, we find the filtered recommendation. This recommendation is constrained by variables specific to the item, like movie genre etc. Another area of this evaluation contains the blended recommendation. Those recommendations are based on free text provided by the user in order to search. Item prediction is another area of the evaluation, in this prediction the user is navigated to the items page and the system is trying to predict the user's rating on the item. Last but not least, the paper examines the case of a new item being added to the system and how this is going to be incorporated into it.
 
 \paragraph{}As a result, of those experiments, the paper concludes that "hand-build recommenders exhibit superior performance in model building and pure recommendation tasks, while DBMS-based recommenders are superior to more complex recommendations such as providing filtered recommendations and blending text-search with recommendation prediction issues.
 
-\subsection{Recommender Systems Evaluation: A 3D Benchmark \cite{said2012recommender}}
+\section{Recommender Systems Evaluation: A 3D Benchmark \cite{said2012recommender}}
 \paragraph{}In this paper, the authors recognize the need for a common benchmark formula for recommender systems. This need leads them to propose one. They named it the 3D recommendation evaluation because they evaluate a system in three axes. These axes are business models, user requirements, and technical constraints. In business model axis they state that a recommender system must be evaluated on how well it serves the business case it is used for. In their paper they give the example of a video on demand service and evaluate it versus the pay per view business model and pay per subscription.
 
 \paragraph{}In the user requirements axis, the evaluate the system based on what needs it covers for the users. Is it, for example, going to reduce search time or decision-making time.
 
 \paragraph{}Last but not least is the technical constraints axis. In this axis the system is being evaluated based on data or hardware constrains, scalability and robustness.
 
-\subsection{RiVal: A New Benchmarking Toolkit for Recommender Systems \cite{said2014rival}}
+\section{RiVal: A New Benchmarking Toolkit for Recommender Systems \cite{said2014rival}}
 \paragraph{}RiVal, is an open source tool kit implemented in Java programming language. Rival is available via maven repositories. It is used in order to measure the evaluate recommender systems. Its evaluation is based on three points. Those points are data spitting, item recommendation, candidate item generation and performance measurement. 
