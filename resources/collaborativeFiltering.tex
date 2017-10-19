@@ -34,9 +34,10 @@
 \end{description}
 
 \section{Collaborative filtering}
+\paragraph{} In order to better understand the term, collaborative filtering lets take a look in a dictionary.
 \paragraph{collaborative:} adjective, characterized or accomplished by collaboration \cite{Dictionary.com2017}.
 \paragraph{filter:} noun, something that works like a filter, as by removing, blocking, or separating out certain elements \cite{Dictionary.com2017}.
-
+\paragraph{} As we can see by the given definitions, collaborative filtering is the technique that allows us to select an object from a given set based on the set itself.
 \paragraph{}The need of having recommender systems lies between the need of obtaining recommendations from trustworthy sources and the availability of a large amount of user data.
 \paragraph{}Like on any demand and supply system, on the one hand, lies the demand of accurate and trustworthy recommendations. On the other hand are the tons of user data that can serve this demand.
 \paragraph{}Over the years have been developed techniques that can utilize those data, in order to provide good recommendations. Those techniques are highly dependent on the volume of data they use. 
@@ -49,7 +50,10 @@
 \paragraph{content:} noun, something that is contained \cite{Dictionary.com2017}.
 \paragraph{base:} noun, a fundamental principle or groundwork; foundation; basis \cite{Dictionary.com2017}.
 
-\paragraph{}The most common and easy to interpret the way of recommendation is collaborative filtering. In this area of algorithms, you are trying to utilize data from other users in order to come to a recommendation. Those data might be attributes that characterize the item of interest. 
+\paragraph{}Content based collaborative filtering is the technique that allows us to select objects from a given set based on the actual values of its items.
+\paragraph{} This could be a rote or information implant learning processes.
+
+\paragraph{}The most common and easy to interpret the way of recommendation is content based collaborative filtering. In this area of algorithms, you are trying to utilize data from other users in order to come to a recommendation. Those data might be attributes that characterize the item of interest. 
 \paragraph{}In the case of users, those attributes may be their age or occupation, whereas for a product might be its color, prize or weight in kilograms. In order to put this to a mathematical expression, we could write the following.
 
 \begin{equation}
@@ -65,12 +69,13 @@ w=(\lambda I + R^{T}R)^{-1} R^{T}M
 \paragraph{}That kind of algorithms is easier to interpret. They also can handle well a cold-start problem. But they are computational heavy, meaning that the scaling of them is limited.
 
 \subsection{Latent Factors}
-
+\paragraph{} Finally lets take a look at the terms latent and factor in the dictionary.
 \paragraph{latent:} adjective present but not visible, apparent, or actualized; existing as potential \cite{Dictionary.com2017}.
 \paragraph{factor:} noun one of the elements contributing to a particular result or situation \cite{Dictionary.com2017}.
-
-\paragraph{}Another approach to recommender algorithms is the latent factors group. This group of algorithms does not take into consideration the meta-data we have for any user or item. 
-\paragraph{}In that area, we are trying to determine relationships between a user and an item based only on the rating. Those relationships may not be the age or the color.
+\paragraph{} Based on the definitions above we can assume that the latent factor collaborative filtering, allows us to select objects from a given set based on factors that are not clearly depicted in the actual values of each item.
+\paragraph{} This type of learning is learning by example.
+\paragraph{} The group of latent factors algorithms does not take into consideration the meta-data we have for any user or item. 
+\paragraph{} In that area, we are trying to determine relationships between a user and an item based only on the rating. Those relationships may not be the age or the color.
 
 \begin{figure}[h]
 	\centering
