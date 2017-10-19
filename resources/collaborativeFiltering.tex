@@ -1,5 +1,39 @@
 \newpage
-\chapter{Collaborative filtering}
+\chapter{Machine Learning and Collaborative filtering}
+\paragraph{Learning} is the complex process that contains ...
+
+\paragraph{}Moving forward, lets examine the objectives and processes of machine learning \cite{carbonell1983overview}. The objectives of machine learning can be summarized in three major categories as shown below.
+
+\begin{description}
+	\item[$\bullet$ Task Oriented Studies] Those studies emphasases on creating and analizing a predefined set of tasks in order to improve their performance. They are also called engineering approach.
+	\item[$\bullet$ Cognitive Simulation] In this area, the computer program tries to imitate the learning process of a human being.
+	\item[$\bullet$ Theoritical Analisis] is the last but not least of the machine learning objectives. Here is where scientists tries to investigate, domain agnostic learning processes and algorithms.
+\end{description}
+
+\paragraph{} It is stated that there are two types of learning. Those types are knowledge acquisition and skill refinement. To make things more clear lets give some examples. Lets assume that you are studying about a new dog breed. This type of learning will be based on the acquisition of the knowledge. What color usually this breed is, what is its sizes and so on. Now lets assume that is the second time you are riding a bike, you have the knowledge of what goes where but your skill is not refined. As you will continue to ride the bike you will follow the second type of learning which is the skill refinement.
+
+\paragraph{} Numerous processes of learning is known, from processes that someone may call naive, to very efficient and complex ones. Below is listed roughly some of those processes.
+
+\begin{description}
+	\item[$\bullet$ Rote learning and direct implanting of knowledge] process requires no knowledge transformation by the learner. The learner deterministically responding the knowledge we putted in. When a computer programmer, instructs its machine through the code he provided, and that code contains an if statement. This is knowledge that has been directly implanted to it.
+	\item[$\bullet$ Learning by instruction], for example we provide a set of rules to a program in a given language. The receving system or the learner if you prefer, will have to transform this knowledge in order to utilize it.
+	\item[$\bullet$ Learning by analogy] is the process that allows the learner to project an existing knowledge to the new one in order to understand it.
+	
+	
+	For example, lets image ourself in an auditorium, and we having a class about lions. In order to help the example, lets assume that the only knowledge we have about the animal kingdom is dogs and cats. The professor knows, or at least suspecting the specific knowledge we have. Then he says, a lion has the body structure of a cat and its size is twice as much the dog's. We projected the new knowledge on a given one.
+	
+	\item[$\bullet$ Learning by example.] In this area we give to the learner a set of examples which are notated as true or false. The learner will have to make assumptions and create patterns between the examples in order to answer a request that is not notated.
+	
+	\item[$\bullet$ Learning from observation and discovery] is the last process we are going to investigate. This process is also called \textit{unsupervised learning}.
+	In this type of learning the learner tries to classify the observations without the help of a supervisor. Unsupervised learning has two main aspects. The first aspect is the \underline{passive observation}. In this aspect, the learner classifies the observations made to the environment he exists. The second and more interesting part of is the \underline{active experimentation}. This is were the learner tries to perturb its environment and observe the results of it. 
+	
+	Lets give an example of active experimentation. Assuming we have a smart virtual machine hypervisor. The hypervisor follows the unsupervised active experimentation learning paradigm. This hypervisor hosts a virtual machine of 5 cores and 2GB of memory. The hypervisor has information about the number of processors used, the amount of memory available to the system and the traffic network.
+	
+	The hypervisor desides to experiment on the virtual machine, and reduces the amount of available memory to 128MB. Instantly the hypervisor observes a dramatic reduction to the network traffic and the memory usage to be 100\%. On the other hand, the 5 cores are underutilized. Those metrics makes the learner to classify this situation as a non regular and returns the resources to the virtual machine.
+	
+\end{description}
+
+\section{Collaborative filtering}
 \paragraph{collaborative:} adjective, characterized or accomplished by collaboration \cite{Dictionary.com2017}.
 \paragraph{filter:} noun, something that works like a filter, as by removing, blocking, or separating out certain elements \cite{Dictionary.com2017}.
 
@@ -10,7 +44,7 @@
 \paragraph{}The more the data the more accurate the recommendation. But its system's training phase is largely impacted by the volume mentioned before. Thus, any algorithm or system is will provide good recommendations as long as it is trained with the right dataset.
 
 \paragraph{} Those algorithms were initially based only on statistical models that were available at the time. Whereas the data were growing rapidly, and the sample started to approach the population.
-\section{Content based}
+\subsection{Content based}
 \paragraph{} Content based, it seems a very attractive term but lets take a look at the very definition of those words.
 \paragraph{content:} noun, something that is contained \cite{Dictionary.com2017}.
 \paragraph{base:} noun, a fundamental principle or groundwork; foundation; basis \cite{Dictionary.com2017}.
@@ -30,7 +64,7 @@ w=(\lambda I + R^{T}R)^{-1} R^{T}M
 
 \paragraph{}That kind of algorithms is easier to interpret. They also can handle well a cold-start problem. But they are computational heavy, meaning that the scaling of them is limited.
 
-\section{Latent Factors}
+\subsection{Latent Factors}
 
 \paragraph{latent:} adjective present but not visible, apparent, or actualized; existing as potential \cite{Dictionary.com2017}.
 \paragraph{factor:} noun one of the elements contributing to a particular result or situation \cite{Dictionary.com2017}.
