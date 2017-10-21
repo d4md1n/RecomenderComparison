@@ -125,8 +125,7 @@ ymax = 2.3
         \caption {\bfseries Content Based Algorithm Results vs MAE over RMSE}
         \centering
 \begin{tabular}{c|r}%
-       \bfseries Training Dataset \ | Testing Dataset 
-       & \bfseries  MAE\  \textbackslash \ RMSE
+       \bfseries Training Dataset \ | Testing Dataset & \bfseries  MAE\  \textbackslash \ RMSE
        \csvreader[head to column names]{data/contentBased.csv}{}% use head of csv as column names
        {\\\hline \trainingSet \ | \testingSet & \MAEoverRMSE}% specify your columns here
 \end{tabular}

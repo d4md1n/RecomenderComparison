@@ -1,4 +1,4 @@
-\documentclass[12pt, a4paper]{report}
+\documentclass[12pt, a4paper, oneside, greek]{report}
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{csvsimple}
@@ -10,7 +10,10 @@
 \usepackage[noend]{algpseudocode}
 \usepackage{listings}
 \usepackage{setspace}
-%\doublespacing
+\usepackage[utf8]{inputenc}
+\usepackage{alphabeta}
+\usepackage[LGR,T1]{fontenc}
+
 \onehalfspacing
 \begin{document}
 \pagenumbering{gobble}
@@ -22,6 +25,10 @@
 		{\scshape\Large Master Thesis\par}
 		\vspace{1.5cm}
 		{\huge\bfseries Recommender Systems Comparison\par}
+		{\Large\itshape \par}
+
+Σύγκριση Συστημάτων Προτάσεων
+
 		\vspace{2cm}
 		{\Large\itshape Vasileios Simeonidis\par}
 		\vspace{5cm}
@@ -34,14 +41,6 @@
 \newpage 
 \begin{center}
 	This page was intentionally left blank.
-\end{center}
-\newpage
-\tableofcontents
-\pagenumbering{roman}
-\newpage
-\pagenumbering{gobble}
-\begin{center}
-This page was intentionally left blank.
 \end{center}
 \newpage
 \chapter*{Acknowledgements}
@@ -60,9 +59,27 @@ This page was intentionally left blank.
 
 \newpage
 \begin{center}
+	This page was intentionally left blank.
+\end{center}
+\newpage
+\tableofcontents
+\newpage
+\begin{center}
+	This page was intentionally left blank.
+\end{center}
+\newpage
+\listoftables
+\newpage
+\begin{center}
+	This page was intentionally left blank.
+\end{center}
+\newpage
+\listoffigures
+\newpage
+
+\begin{center}
 This page was intentionally left blank.
 \end{center}
-
 \newpage
 \pagenumbering{arabic}
 \part{Master Thesis}
@@ -75,5 +92,4 @@ This page was intentionally left blank.
 \bibliography{thesis}
 \bibliographystyle{ieeetr}
 \input{appendices.tex}
-
 \end{document}
