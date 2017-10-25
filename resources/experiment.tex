@@ -27,10 +27,10 @@ then the worker was done, he was putting the result back to the HDFS.
 
 \paragraph{}As mentioned in \cite{ibmMapReduce:5}, "The term MapReduce actually refers to two separate and distinct tasks that Hadoop programs perform. The first is the map job, which takes a set of data and converts it into another set of data, where individual elements are broken down into tuples (key/value pairs). The reduce job takes the output from a map as input and combines those data tuples into a smaller set of tuples. As the sequence of the name MapReduce implies, the reduce job is always performed after the map job."
 
-\paragraph{}So Hadoop has two basic processes, Map which is responsible for turning the data into key value pairs, and Reduce which takes those pairs and turns them into valuable data.
+\paragraph{}So Hadoop has two basic processes, Map which is responsible for turning the data into key-value pairs, and Reduce which takes those pairs and turns them into valuable data.
 
-\paragraph{}If we would like to see where in the DIKW (Data Information Knowledge Wisdom) stack. The Map process would with data and the reduce will end up with information. Of course, this in not always the case, lots of algorithms require lots of cycles in order to complete. \\
- 
+\paragraph{}If we would like to see where in the DIKW (Data Information Knowledge Wisdom) stack. The Map process would start with data while the reduce one will end up with information. Of course, this is not always the case, lots of algorithms require lots of cycles in order to complete. \\
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\textwidth]{images/DIKW.png}
@@ -38,7 +38,7 @@ then the worker was done, he was putting the result back to the HDFS.
 	\label{dikw}
 \end{figure}
 % %note spark version
-\paragraph{} But let's make a step back and take a look at Hadoop's architecture. As it is described on its official website \cite{Hadoop:9}, and shown in the figure \ref{hadoopStack} Hadoop uses Hadoop yarn in order to coordinate which process will run on which machine. Also, it uses its file system, the HDFS in order to have a common reference for the files over the network. Last but not least, Hadoop ecosystem is supported by the Hadoop Commons library. \\
+\paragraph{} But let's take a step back and take a look at Hadoop's architecture. As it is described on its official website \cite{Hadoop:9}, and shown in the figure \ref{hadoopStack} Hadoop uses Hadoop yarn in order to coordinate which process will run on which machine. Also, it uses its file system, the HDFS in order to have a common reference for the files over the network. Last but not least, Hadoop ecosystem is supported by the Hadoop Commons library. \\
 
 \begin{figure}[h]
 	\centering
@@ -55,7 +55,7 @@ then the worker was done, he was putting the result back to the HDFS.
 
 \paragraph{}In order to break the acyclic nature of Hadoop, they introduced the Spark's major abstraction, the RDDs. The name RDD stands for Resilient Distributed Datasets. Those datasets are a read-only collection of objects distributed across machines. If a machine fails, the lost part of the RDD can be recalculated. This notion is called lineage.
 
-\paragraph{}Spark is implemented in Scala. Scala is a high-level statically typed programming language. At the time that paper was published, it was believed that Spark was the only system available in a general purpose programming language to make clusters process a large amount of data. As it was mentioned in \cite{Zaharia:2010:SCC:1863103.1863113} "We believe that Spark is the first system to allow an efficient, general purpose programming language to be used interactively to process large datasets on clusters"
+\paragraph{}Spark is implemented in Scala. Scala is a high-level statically typed programming language. At the time that paper was published, it was believed that Spark was the only system available in a general-purpose programming language to make clusters process a large amount of data. As it was mentioned in \cite{Zaharia:2010:SCC:1863103.1863113} "We believe that Spark is the first system to allow an efficient, general-purpose programming language to be used interactively to process large datasets on clusters"
 
 \paragraph{}Back to RDDs, an RDD can be created with four different operations as it is described in \cite{Zaharia:2010:SCC:1863103.1863113}.
 
@@ -74,7 +74,7 @@ then the worker was done, he was putting the result back to the HDFS.
 
 \paragraph{}Spark also give us the power to do a lot of different distributed operations. Some of them were mentioned before, but we also have operations that would return data to the driver program like collect or reduce. 
 
-\paragraph{}Another important feature of Sparks spine are the shared variables. Spark at its first appearance introduced two of them. 
+\paragraph{} Another important feature of Sparks spine are the shared variables. Spark at its first appearance introduced two of them. 
 \begin{description}
 	\item[$\bullet$] The first, shared variable is the broadcasted variables. 
 	
@@ -86,34 +86,34 @@ then the worker was done, he was putting the result back to the HDFS.
 \end{description}
 
 \begin{figure}[ht]
-  \centering
-    \includegraphics[width=0.5\textwidth]{images/hadoopVsSpark.png}
-    \caption{\bfseries Logistic regression, Hadoop vs Spark \cite{HadoopVsSpark}}
-   \label{hadoopVsSpark}
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/hadoopVsSpark.png}
+	\caption{\bfseries Logistic regression, Hadoop vs Spark \cite{HadoopVsSpark}}
+	\label{hadoopVsSpark}
 \end{figure}
 
-\paragraph{}Coming back to today, Spark's current architecture is depicted below in fig. \ref{apacheSparkStack}. Spark nowadays has an SQL interface in order to search in RDDs with in a query language. Also, Spark support a streaming API to make available real-time analytics. Most of the core machine learning algorithms like ALS, which I used in order to complete this thesis, are the Spark's MLlib component. Finally, the Spark has the component GraphX that is used for handling graphs and graph computation.
+\paragraph{}Coming back to today, Spark's current architecture is depicted below in fig. \ref{apacheSparkStack}. Spark nowadays has an SQL interface in order to search in RDDs within a query language. Also, Spark support a streaming API to make available real-time analytics. Most of the core machine learning algorithms like ALS, which I used in order to complete this thesis, are the Spark's MLlib component. Finally, the Spark has the component GraphX that is used for handling graphs and graph computation.
 
 \paragraph{}Apache Spark was by design meant to work within Hadoop ecosystem, and most importantly with the HDFS. Apache Spark does not have a file system by itself. You can load data from almost any database, cloud-based or not, even from a local file system. But most will agree that Hadoop and Spark work together just perfect. \\
 
 \begin{figure}[ht]
-  \centering
-    \includegraphics[width=0.5\textwidth]{images/spark-stack.png}
-    \caption{\bfseries Apache spark stack \cite{ApacheSpark:1}}
-   \label{apacheSparkStack}
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/spark-stack.png}
+	\caption{\bfseries Apache spark stack \cite{ApacheSpark:1}}
+	\label{apacheSparkStack}
 \end{figure}
 
 \paragraph{} To conclude, Spark has dominated the big data field the last years, Amazon and other cloud providers give you the option to deploy an Apache Spark cluster on their infrastructure. Also, large companies like Google and Intel are actively contributing to projects like Apache Spark On Kubernetes which can be found at its Github repository \footnote{https://github.com/apache-spark-on-k8s/spark}
 
 \section{Dataset}
-\paragraph{}Selecting a clear and reliable data set is very important for every experiment in the field. Due to that need several papers, like \cite{levandoski2011recbench}, are using the Movie lens data set. This dataset contains users, movies, and ratings. Each user may rate more than a movie and each movie can be rated by more than one user. The data set split to multiple subsets of 80000 training sets and respective 20000 test set. It also provides scripts that can be used to create more sets.
+\paragraph{}Selecting a clear and reliable data set is very important for every experiment in the field. Due to that need several papers, like \cite{levandoski2011recbench}, are using the Movie lens data set. This dataset contains users, movies, and ratings. Each user may rate more than a movie and each movie can be rated by more than one user. The dataset split to multiple subsets of 80000 training sets and respective 20000 test set. It also provides scripts that can be used to create more sets.
 
 \paragraph{} In order to better visualize the above dataset, we created an entity relationship(ER) diagram below. \\
 \begin{figure}[ht]
-  \centering
-    \includegraphics[width=0.5\textwidth]{images/MovieLensDataset.png}
-    \caption{\bfseries MovieLens ER diagram \cite{MovieLens:3}}
-   \label{movieLensER}
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/MovieLensDataset.png}
+	\caption{\bfseries MovieLens ER diagram \cite{MovieLens:3}}
+	\label{movieLensER}
 \end{figure}
 
 
