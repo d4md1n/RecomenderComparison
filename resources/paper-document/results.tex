@@ -1,4 +1,4 @@
-\chapter{Results}
+\section{Results}
 
 \paragraph{} In this chapter, we will examine the results taken from the experiment described in the previous chapter. 
 In order to measure the performance of each recommender system, we used three different metrics. Those metrics are the Mean Absolute Error (MAE), the Root Mean Square Error (RMSE), and the execution time of each system.
@@ -39,7 +39,6 @@ MAE = \frac{\sum_{i=1}^{n}{|e_i|}}{n} =
 	\label{tab:Latent Factors Algorithm Results vs MAE}
 \end{table}
 \paragraph{}As we can see, comparing the two systems on this metric we realize that the latent factors system outperformed the content based one. That is clearly depicted on the graph below.
-\clearpage
 \pgfplotstableread[col sep=comma]{../data/contentBased.csv}\contentBasedDataTable
 \pgfplotstableread[col sep=comma]{../data/latentFactors.csv}\latentFactorsDataTable
 \begin{figure}[ht]
@@ -95,7 +94,6 @@ RMSE = \sqrt{\frac{\sum_{i=1}^{n}{e_i^2}}{n}} =
 	\label{tab:Latent Factors Algorithm Results vs RMSE}
 \end{table}
 The results above can be shown clearly on the graph following, depicting the performance of latent factors and content based systems, on each dataset, on RMSE metric.
-\clearpage
 \begin{figure}[ht]
 	\centering
 	\begin{tikzpicture}
@@ -117,9 +115,6 @@ The results above can be shown clearly on the graph following, depicting the per
 \end{figure}
 
 \paragraph{} Even if RMSE is considered a better metric when large errors are undesired, it is useful to check those systems on the $\frac{MAE}{RMSE}$ metric too. It is easily proven that $MAE \leq RMSE$. Those two are equal when the magnitude of all errors is the same. Examining this ratio we can see if the magnitude of the errors has close values.
-\clearpage
-
-
 \begin{table}[ht]
 	\caption {\bfseries Content Based Algorithm Results vs MAE over RMSE}
 	\centering
@@ -144,8 +139,6 @@ The results above can be shown clearly on the graph following, depicting the per
 \end{table}
 
 \paragraph{}As it was expected and this area of examination, latent factors system has ten percent (10\%) fewer error spikes than the content based on every dataset. The graph below depicts the results.
-\clearpage
-
 \begin{figure}[ht]
 	\centering
 	\begin{tikzpicture}
@@ -190,9 +183,6 @@ The results above can be shown clearly on the graph following, depicting the per
 	\end{tabular}
 	\label{tab:Latent Factors Algorithm Results vs Execution Time}
 \end{table}
-
-\clearpage
-
 
 \begin{figure}[ht]
 	\centering
