@@ -1,16 +1,12 @@
 \section{Conclusion}
-\paragraph{}Recommender systems have a short but intense history. It started from simple statistical models and nowadays it is a great field of study. Recommender systems are now used widely in the online market. Every day you are using them without even noticing it. While you are browsing videos or the web, getting a message from a friend or even listening to music a recommender system might serve you at the time.
+Recommender systems have a short but intense history. It started from simple statistical models and nowadays it is a great field of study. Recommender systems are now used widely in the online market. Every day you are using them without even noticing it. While you are browsing videos or the web, getting a message from a friend or even listening to music a recommender system might serve you at the time.
 
-\paragraph{} In this last chapter of this thesis, we will summarize the experiment and the result we got. This thesis is the attempt of the author to compare two recommender algorithms. Those algorithms were the classic content based and the alternative least squares. The first one is in the area of collaborative filtering while the other is in the latent factors area.
+In this last chapter of this thesis, we will summarize the experiment and the result we got. This thesis is the attempt of the author to compare two recommender algorithms. Those algorithms were the classic content based and the alternative least squares. The first one is in the area of collaborative filtering while the other is in the latent factors area.
 
-\paragraph{} Those two algorithms were implemented or used in Apache Spark. The first, the content based algorithm was implemented, the second one the alternating least squares was used via Apache Spark's MLlib library.
+Those two algorithms were implemented or used in Apache Spark. The first, the content based algorithm was implemented, the second one the alternating least squares was used via Apache Spark's MLlib library.
 
-\paragraph{} Then those systems were put to test. As metrics were used the mean absolute error(MAE), the root mean square error (RMSE), the ratio between them (MAE/RMSE) and the execution time. Execution time is composed of two parts, the training time and the time taken to make the metrics. Because the metrics are common, on the same platform and they were using the same code, we can assume that the execution time difference has the training part and the prediction part for every rate in the test dataset.
+Then those systems were put to test. As metrics were used the mean absolute error(MAE), the root mean square error (RMSE), the ratio between them (MAE/RMSE) and the execution time. Execution time is composed of two parts, the training time and the time taken to make the metrics. Because the metrics are common, on the same platform and they were using the same code, we can assume that the execution time difference has the training part and the prediction part for every rate in the test dataset.
 
-\paragraph{} During the results examination, as it was shown in the previous chapter, we found that the ALS system outperformed the content based on every metric we used. It showed low error metrics, MAE and RMSE, while execution time was low. The ratio MAE/RMSE was high. The last showed us that ALS has fewer data spikes comparing to the content based.
+During the results examination, as it was shown in the previous chapter, we found that the ALS system outperformed the content based on every metric we used. It showed low error metrics, MAE and RMSE, while execution time was low. The ratio MAE/RMSE was high. The last showed us that ALS has fewer data spikes comparing to the content based.
 
-\paragraph{} Recommender systems will be around for quite a long time, it is important to know how to compare them. Even more important is to identify which recommender algorithm to use for each business case.
-
-\paragraph{} This thesis was a very important milestone for the author. This milestone couldn't be true without the help of those mentioned in the acknowledgment page.
-\\
-\paragraph{Vasileios Simeonidis, \\ August 15, 2017}
+Recommender systems will be around for quite a long time, it is important to know how to compare them. Even more important is to identify which recommender algorithm to use for each business case.

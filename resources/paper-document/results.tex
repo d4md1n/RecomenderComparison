@@ -22,7 +22,7 @@ MAE = \frac{\sum_{i=1}^{n}{|e_i|}}{n} =
 	\caption {\bfseries Content Based Algorithm Results vs Mean Absolute Error}
 	\centering
 	\begin{tabular}{c|r}%
-		\bfseries Training Dataset \ | Testing Dataset & \bfseries Mean Absolute Error
+		\bfseries Training Dataset \ | Testing Dataset & \bfseries MAE
 		\csvreader[head to column names]{../data/contentBased.csv}{}% use head of csv as column names
 		{\\\hline \trainingSet \ | \testingSet & \MAE}% specify your columns here
 	\end{tabular}
@@ -32,7 +32,7 @@ MAE = \frac{\sum_{i=1}^{n}{|e_i|}}{n} =
 	\caption{\bfseries Latent Factors Algorithm Results vs Mean Absolute Error}
 	\centering
 	\begin{tabular}{c|r}%
-		\bfseries Training Dataset \ | Testing Dataset & \bfseries Mean Absolute Error
+		\bfseries Training Dataset \ | Testing Dataset & \bfseries MAE
 		\csvreader[head to column names]{../data/latentFactors.csv}{}% use head of csv as column names
 		{\\\hline \trainingSet \ | \testingSet & \MAE}% specify your columns here
 	\end{tabular}
@@ -76,7 +76,7 @@ RMSE = \sqrt{\frac{\sum_{i=1}^{n}{e_i^2}}{n}} =
 	\caption {\bfseries Content Based Algorithm Results vs Root Mean Square Error}
 	\centering
 	\begin{tabular}{c|r}%
-		\bfseries Training Dataset \ | Testing Dataset & \bfseries Root Mean Square Error
+		\bfseries Training Dataset \ | Testing Dataset & \bfseries RMSE
 		\csvreader[head to column names]{../data/contentBased.csv}{}% use head of csv as column names
 		{\\\hline \trainingSet \ | \testingSet & \RMSE}% specify your columns here
 	\end{tabular}
@@ -87,7 +87,7 @@ RMSE = \sqrt{\frac{\sum_{i=1}^{n}{e_i^2}}{n}} =
 	\caption{\bfseries Latent Factors Algorithm Results vs Root Mean Square Error}
 	\centering
 	\begin{tabular}{c|r}%
-		\bfseries Training Dataset \ | Testing Dataset & \bfseries Root Mean Square Error
+		\bfseries Training Dataset \ | Testing Dataset & \bfseries RMSE
 		\csvreader[head to column names]{../data/latentFactors.csv}{}% use head of csv as column names
 		{\\\hline \trainingSet \ | \testingSet & \RMSE}% specify your columns here
 	\end{tabular}
