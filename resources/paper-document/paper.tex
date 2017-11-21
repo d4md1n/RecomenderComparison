@@ -12,6 +12,10 @@
 \usepackage{setspace}
 \usepackage[utf8]{inputenc}
 
+\tikzset{
+	font={\fontsize{9pt}{12}\selectfont}
+	}
+
 \begin{document}
 	
 	\title{Recommender Systems} % to be concidered
@@ -32,7 +36,7 @@
 		This thesis aims to destiguise metrics on recommender systems  that can be proved useful to compare them. Also, this thesis, performs a comparison between two algorithms of the collaborative filtering family. The content based with focus on items and the machine learning oriented alternating least square (als).
 	\end{abstract}
 	\begin{IEEEkeywords}
-		IEEEtran, journal, \LaTeX, paper, template.
+		IEEEtran, journal, \LaTeX, paper, template. % TODO: add the actual keywords
 	\end{IEEEkeywords}
 
 	
@@ -47,19 +51,19 @@
 	\input{results.tex}
 	\input{conclusion.tex}
 
-	\section{Acknowledgements}
-	
-	\paragraph{} This work couldn't be completed without the great support I received from so many people over this year. I would like to thank the following people.
-	
-	\paragraph{} My supervisor Dr. Dimosthenis Kyriazis for totally supporting me in the choices I made and giving me the freedom I was needing.
-	
-	\paragraph{} My friend and fellow student Dimitris Poulopoulos for helping me understand the field of recommender systems and supported me technically and theoretically.
-	
-	\paragraph{} My friends and colleagues George Adamopoulos and Nikos Silvestros for constantly teaching me high-level engineering and scientific thinking. Also, I would like to thank them for putting the right amount of pressure on me in order to complete this thesis.
-	
-	\paragraph{} Kronos, the development team I am part of and helping me to keep my spirit high. Thank you, Apostolos Chissas, Kostas Rigas, Christos Grivas, Peter Lengos, Vasiliki Giamarelou, Maria Karkeli, Eleni Karakizi, Spyros Argyroiliopoulos, Nikos Anagnostou and Ioannis Koutsileos. 
-	
-	\paragraph{} Last but not least, I would like to thank my close friends and family for bearing me while I was anxious about the completion of this thesis.
+
+\section*{Acknowledgements}
+This work couldn't be completed without the great support I received from so many people over this year. I would like to thank the following people.
+
+My supervisor Dr. Dimosthenis Kyriazis for totally supporting me in the choices I made and giving me the freedom I was needing.
+
+My friend and fellow student Dimitris Poulopoulos for helping me understand the field of recommender systems and supported me technically and theoretically.
+
+My friends and colleagues George Adamopoulos and Nikos Silvestros for constantly teaching me high-level engineering and scientific thinking. Also, I would like to thank them for putting the right amount of pressure on me in order to complete this thesis.
+
+Kronos, the development team I am part of and helping me to keep my spirit high. Thank you, Apostolos Chissas, Kostas Rigas, Christos Grivas, Peter Lengos, Vasiliki Giamarelou, Maria Karkeli, Eleni Karakizi, Spyros Argyroiliopoulos, Nikos Anagnostou and Ioannis Koutsileos. 
+
+Last but not least, I would like to thank my close friends and family for bearing me while I was anxious about the completion of this thesis.
 	
 	\bibliography{paper}
 	\bibliographystyle{ieeetr}
